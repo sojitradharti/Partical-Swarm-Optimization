@@ -42,7 +42,7 @@ public final class Particle {
         PersonalBestRoute = particleRoute;
         pFitnessValue = GenerateFitness();
         pBestValue = pFitnessValue;
-         pVelocity = setVelocity(10);
+         pVelocity = setVelocity(10);// need to change to dynamic variable
          pBestVelocity = pVelocity;
 //       updateVelocity();
 

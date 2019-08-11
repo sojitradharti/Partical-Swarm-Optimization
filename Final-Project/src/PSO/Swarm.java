@@ -10,6 +10,7 @@ import Business.Location;
 
 import Business.ParticleModel;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -43,12 +44,13 @@ public class Swarm {
 				gBestVelocity = par.pBestVelocity;
 			}
          }
+         System.out.println("gFitnessValue" + gFitnessValue + "gBestRoute " + gBestRoute + "gBestVelocity"+ Arrays.toString(gBestVelocity));
        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void calculatebestSolution() {
+    public particleProgress calculatebestSolution() {
         for(Particle p: parModel.getArrParticle()){
-			
+			System.out.println("For particle :" + p.name);;
 			//  velocity
 			findNewVelocity(p);			
 			
@@ -65,10 +67,11 @@ public class Swarm {
 				p.pBestVelocity = p.pVelocity;
 			}
                   System.out.println("PersonalBestRoute   pBestValue  pBestVelocity"  );
-		 System.out.println(p.PersonalBestRoute + "," +p.pBestValue + ", " + p.pBestVelocity  );
+		 System.out.println(p.PersonalBestRoute + "," +p.pBestValue + ", " + Arrays.toString(p.pBestVelocity) );
 		}
 		
 		//update all global variables after each paricle updated
+                
 		findGlobalBest(parModel.getArrParticle());
                
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -80,12 +83,19 @@ public class Swarm {
         int rangeMax = 1;
         int rangeMin = 0;
         Random r = new Random();
+        double w = 0.6;
+		
+		double o1 = 0.2;
+		double b1 = 0.3;
+		
+		double o2 = 0.2;
+		double b2 = 0.5;
         double r1 = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
         double r2 = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
         double r3 = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
           int[] newVelocity = new int[p.pVelocity.length];
         for (int i = 0; i < newVelocity.length; i++) {
-            newVelocity[i] = (int) (2 * r1 * p.pVelocity[i] + (2 * r2 * (p.PersonalBestRoute.get(i) - p.particleRoute.get(i))) + (2 * r3 * (gBestRoute.get(i) - p.particleRoute.get(i))));
+            newVelocity[i] = (int) (w* p.pVelocity[i] + (o1*b1* (p.PersonalBestRoute.get(i) - p.particleRoute.get(i))) + (o2*b2* (gBestRoute.get(i) - p.particleRoute.get(i))));
         
         }
         p.pVelocity = newVelocity;
@@ -109,8 +119,8 @@ public class Swarm {
         //return the value of objective function
         for (int i = 0; i < particleRoute.size() - 1; i++) {
            
-            int v = (int)particleRoute.get(i);
-            System.out.println("initial :" + initial + " v :" +v );
+            int v = particleRoute.get(i);
+           // System.out.println("initial :" + initial + " v :" +v );
             sum += graph.getAdjacency_matrix()[initial][v];
             initial = v;
         }
