@@ -25,7 +25,7 @@ public class Graph
     public Graph() 
     {
         
-        adjacency_matrix = new int[10][10];
+        adjacency_matrix = new int[11][11];
         setAdjacency_matrix(adjacency_matrix);
     }
  

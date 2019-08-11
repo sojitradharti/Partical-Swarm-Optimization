@@ -5,6 +5,7 @@
  */
 package PSO;
 
+import Business.Graph;
 import Business.Location;
 
 import Business.ParticleModel;
@@ -21,53 +22,38 @@ public class Swarm {
     int gFitnessValue;   
     int[] gBestVelocity;	
     
-    private final ParticleModel deliveryGuys;
-  
+    private final ParticleModel parModel;
+   public Graph graph = new Graph();
 
-    public Swarm(ParticleModel db, Location loc, int locationCount) {
+    public Swarm(ParticleModel db, Location loc, int locationCount,Graph graph) {
         //find global best	
-                 this.deliveryGuys = db;
+                 this.parModel = db;
+                 this.graph = graph;
 		gBestRoute = new ArrayList();	
 		gBestVelocity = new int[locationCount];
 		gFitnessValue = Integer.MAX_VALUE;
-		findGlobalBest(deliveryGuys.getArrParticle());
+		findGlobalBest(parModel.getArrParticle());
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-     private void findGlobalBest(Particle[] arrGuy) {
-         for(Particle guy : arrGuy)         {
-             if(guy.pFitnessValue < gFitnessValue){
-				gFitnessValue = guy.pFitnessValue;
-				gBestRoute = guy.particleRoute;
-				gBestVelocity = guy.pBestVelocity;
+     private void findGlobalBest(Particle[] arrPar) {
+         for(Particle par : arrPar)         {
+             if(par.pFitnessValue < gFitnessValue){
+				gFitnessValue = par.pFitnessValue;
+				gBestRoute = par.particleRoute;
+				gBestVelocity = par.pBestVelocity;
 			}
          }
        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-//      private void updateVelocity() {
-//        int rangeMax = 1;
-//        int rangeMin = 0;
-//        Random r = new Random();
-//        double r1 = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
-//        double r2 = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
-//        double r3 = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
-//        int[] newVelocity = new int[pVelocity.length];
-//
-//        for (int i = 0; i < newVelocity.length; i++) {
-//            newVelocity[i] = (int) (2 * r1 * pVelocity[i] + (2 * r2 * (PersonalBestRoute.get(i) - particleRoute.get(i))) + (2 * r3 * (globalBest[i] - particleRoute.get(i))));
-//        }
-//
-//        pVelocity = newVelocity;
-//        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
 
     public void calculatebestSolution() {
-        for(Particle p: deliveryGuys.getArrParticle()){
+        for(Particle p: parModel.getArrParticle()){
 			
-			// find the new velocity
-			updateVelocity(p);			
+			//  velocity
+			findNewVelocity(p);			
 			
-			// find new solution
-			updateSolution(p);
+			// find new Route
+			findNewRoute(p);
 			
 			// update the fitness value of the particles
 			p.pFitnessValue = generateFitnessValue(p.particleRoute);
@@ -78,24 +64,61 @@ public class Swarm {
 				p.pBestValue = p.pFitnessValue;
 				p.pBestVelocity = p.pVelocity;
 			}
-		
+                  System.out.println("PersonalBestRoute   pBestValue  pBestVelocity"  );
+		 System.out.println(p.PersonalBestRoute + "," +p.pBestValue + ", " + p.pBestVelocity  );
 		}
 		
-		//update the gBest after this one iteration
-		findGlobalBest(deliveryGuys.getArrParticle());
+		//update all global variables after each paricle updated
+		findGlobalBest(parModel.getArrParticle());
+               
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private void updateVelocity(Particle p) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    // to update velocity in each iteration
+    private void findNewVelocity(Particle p)
+    { 
+        int rangeMax = 1;
+        int rangeMin = 0;
+        Random r = new Random();
+        double r1 = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
+        double r2 = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
+        double r3 = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
+          int[] newVelocity = new int[p.pVelocity.length];
+        for (int i = 0; i < newVelocity.length; i++) {
+            newVelocity[i] = (int) (2 * r1 * p.pVelocity[i] + (2 * r2 * (p.PersonalBestRoute.get(i) - p.particleRoute.get(i))) + (2 * r3 * (gBestRoute.get(i) - p.particleRoute.get(i))));
+        
+        }
+        p.pVelocity = newVelocity;
+       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private void updateSolution(Particle p) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    // learning function to update route of particle in next iteration
+    private void findNewRoute(Particle p) {
+        int value =0;
+        for(int i=0; i<p.particleRoute.size(); i++){
+			value = p.particleRoute.get(i) + p.pVelocity[i] > p.particleRoute.size() ? p.particleRoute.size() :p.particleRoute.get(i) + p.pVelocity[i];
+		        p.particleRoute.set(i, value);
+        }
+       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     private int generateFitnessValue(ArrayList<Integer> particleRoute) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int initial = 0; 
+        int sum = 0;
+
+        //return the value of objective function
+        for (int i = 0; i < particleRoute.size() - 1; i++) {
+           
+            int v = (int)particleRoute.get(i);
+            System.out.println("initial :" + initial + " v :" +v );
+            sum += graph.getAdjacency_matrix()[initial][v];
+            initial = v;
+        }
+
+        sum += graph.getAdjacency_matrix()[initial][0]; // add distance back to the depot
+      
+        return sum;
+       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     

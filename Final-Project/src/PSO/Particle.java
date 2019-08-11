@@ -33,10 +33,11 @@ public final class Particle {
         this.graph = graph;
         particleRoute = new ArrayList();
         ArrayList<Integer> route = new ArrayList();
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i <= 9; i++) {
             route.add(i + 1);
         }
         Collections.shuffle(route);
+        System.out.println("initial random particle route for particle " +name +" :" + route.toString() );
         particleRoute = route;
         PersonalBestRoute = particleRoute;
         pFitnessValue = GenerateFitness();
