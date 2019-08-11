@@ -17,7 +17,7 @@ import java.util.Random;
 public class mainClass {
 
     public final static int ParticleCount = 8;
-    public final static int locationCount = 10;
+    public final static int locationCount = 11;
     static  Graph graph = new Graph();
     static  ParticleModel pm ;
     static Location loc;
@@ -46,7 +46,7 @@ public class mainClass {
         CreateSwarm();
         
         //iterations to get best solution.
-         for(int t=1; t<=Iterations;t++){
+         for(int t=1; t<= Iterations;t++){
 			swarm.calculatebestSolution();	
 			//swarm.printIterationResults(t, particleProgress);			
 		}
@@ -88,7 +88,7 @@ public class mainClass {
     }
 
     private static void CreateSwarm() {
-        swarm =  new Swarm(pm, loc,locationCount);
+        swarm =  new Swarm(pm, loc,locationCount,graph);
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
