@@ -14,29 +14,36 @@ import java.util.Random;
  *
  * @author sojit
  */
-public final class Person {
+public final class Particle {
 
     public String name;
-    ArrayList<Integer> PersonalBestRoute;
-    // total distance of person's route
-    int[] globalBest;
-    public int pBestfitnessValue;
-    int[] velocity;
-    public ArrayList<Integer> particleRoute;
+    public ArrayList<Integer> particleRoute; // xsolution
+    public ArrayList<Integer> PersonalBestRoute; // pbest
+    int pFitnessValue;	
+    int pBestValue;
+    int[] pBestVelocity;	
+    int[] pVelocity;
+    
+    
+   
     Graph graph = new Graph();
 
-    public Person(int name) {
+    public Particle(int name,Graph graph) {
         setName(name);
+        this.graph = graph;
         particleRoute = new ArrayList();
         ArrayList<Integer> route = new ArrayList();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 9; i++) {
             route.add(i + 1);
         }
         Collections.shuffle(route);
         particleRoute = route;
         PersonalBestRoute = particleRoute;
-      //  GenerateFitness();
-       // updateVelocity();
+        pFitnessValue = GenerateFitness();
+        pBestValue = pFitnessValue;
+         pVelocity = setVelocity(10);
+         pBestVelocity = pVelocity;
+//       updateVelocity();
 
     }
 
@@ -55,22 +62,7 @@ public final class Person {
     public void setPersonalBestRoute(ArrayList<Integer> PersonalBestRoute) {
         this.PersonalBestRoute = PersonalBestRoute;
     }
-
-    public int getpBestfitnessValue() {
-        return pBestfitnessValue;
-    }
-
-    public void setpBestfitnessValue(int pBestfitnessValue) {
-        this.pBestfitnessValue = pBestfitnessValue;
-    }
-
-    public int[] getVelocity() {
-        return velocity;
-    }
-
-    public void setVelocity(int[] velocity) {
-        this.velocity = velocity;
-    }
+ 
 
     public String getName() {
         return name;
@@ -80,7 +72,7 @@ public final class Person {
         this.name = "person " + name;
     }
 
-    private void GenerateFitness() {
+    private int GenerateFitness() {
         int initial = 0; // since we will be starting from the depot which has node 0
         int sum = 0;
 
@@ -92,26 +84,27 @@ public final class Person {
         }
 
         sum += graph.getAdjacency_matrix()[initial][0]; // add distance back to the depot
-        this.setpBestfitnessValue(sum);
+      
+        return sum;
         //set fitnessSum;
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private void updateVelocity() {
-        int rangeMax = 1;
-        int rangeMin = 0;
-        Random r = new Random();
-        double r1 = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
-        double r2 = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
-        double r3 = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
-        int[] newVelocity = new int[velocity.length];
+  
 
-        for (int i = 0; i < newVelocity.length; i++) {
-            newVelocity[i] = (int) (2 * r1 * velocity[i] + (2 * r2 * (PersonalBestRoute.get(i) - particleRoute.get(i))) + (2 * r3 * (globalBest[i] - particleRoute.get(i))));
-        }
-
-        velocity = newVelocity;
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private int[] setVelocity(int par) {
+        this.pVelocity = new int[par];
+		// randomly generate the velocity
+		for (int i = 0; i < par; i++) {
+			this.pVelocity[i] = getRandomVelocity(par);
+		}
+                return this.pVelocity;
+      //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    private int getRandomVelocity(int upper) {
+		int lower = 0;
+		return (int)(new Random().nextDouble()* (upper - lower)) + lower;
+	}
+
 
 }

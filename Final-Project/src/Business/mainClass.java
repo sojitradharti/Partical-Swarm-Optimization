@@ -5,7 +5,8 @@
  */
 package Business;
 
-import PSO.Person;
+import PSO.Particle;
+
 import PSO.Swarm;
 import java.util.Random;
 
@@ -15,24 +16,28 @@ import java.util.Random;
  */
 public class mainClass {
 
-    public final static int distributorSize = 8;
-    public final static int destinationCount = 10;
+    public final static int ParticleCount = 8;
+    public final static int locationCount = 10;
     static  Graph graph = new Graph();
-    static  distributor ds = new distributor(distributorSize);
-      static destination dest = new destination(destinationCount);
+    static  ParticleModel pm ;
+    static Location loc;
+    static int Iterations = 100;
+    static Swarm swarm;
     public static void main(String[] args)
     {
       
-       print(ds.persn);
+     
        
        // creating random cost of edges
-       CreateRandomDistance();
-       
+       CreateGraph();
+       pm = new ParticleModel(ParticleCount,graph);
+       loc = new Location(locationCount);
+         print(pm.arrParticle);
        // print graph adjacency matrix
        System.out.println("The adjacency matrix for the given graph is: ");
-           for(int i=0; i<destinationCount; i++){
+           for(int i=0; i<locationCount; i++){
 			
-			for(int j=0; j<destinationCount; j++){
+			for(int j=0; j<locationCount; j++){
 				System.out.print(graph.getEdge(i, j) + "\t");  	
 			}
 			System.out.println();
@@ -40,14 +45,18 @@ public class mainClass {
          
         CreateSwarm();
         
-         
+        //iterations to get best solution.
+         for(int t=1; t<=Iterations;t++){
+			swarm.calculatebestSolution();	
+			//swarm.printIterationResults(t, particleProgress);			
+		}
           
            
        // print(Locations);
     }
 
-    private static void print(Person[] Persons) {
-        for(Person ob : Persons)
+    private static void print(Particle[] guys) {
+        for(Particle ob : guys)
         {
             System.out.println(ob.name + "\t");
         }
@@ -55,18 +64,18 @@ public class mainClass {
       //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private static void CreateRandomDistance() {
+    private static void CreateGraph() {
         int count = 1;
         
          Random rand = new Random();
-               for(int i=0; i<destinationCount; i++){
-			for(int j=i; j<destinationCount; j++){
+               for(int i=0; i< locationCount; i++){
+			for(int j=i; j<locationCount; j++){
 				if(i==j){
 					 graph.addEdge(i,j,0);
                                 }
 				else
                                 {
-					graph.addEdge(i,j,rand.nextInt(destinationCount));
+					graph.addEdge(i,j,rand.nextInt(locationCount));
                                         
                                 }
 			}			
@@ -79,7 +88,7 @@ public class mainClass {
     }
 
     private static void CreateSwarm() {
-        Swarm swarm =new Swarm(ds, dest);
+        swarm =  new Swarm(pm, loc,locationCount);
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
