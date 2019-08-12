@@ -7,7 +7,7 @@ package Business;
 
 /**
  *
- * @author sojit
+ * @author Kamini
  */
 public class destination {
 

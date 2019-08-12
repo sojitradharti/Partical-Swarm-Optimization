@@ -71,9 +71,8 @@ public class Swarm {
                 p.pBestVelocity = p.pVelocity;
             }
             System.out.println("PersonalBestRoute " + p.PersonalBestRoute);
-            System.out.println("P Best Value " + p.pBestValue);
+            System.out.println( "p Fitness " + p.pFitnessValue + "  PBestValue " + p.pBestValue);
             System.out.println("P Best Velocity " + Arrays.toString(p.pBestVelocity));
-            System.out.println("p Fitness " + p.pFitnessValue);
             System.out.println("\n");
         }
 
