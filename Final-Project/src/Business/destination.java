@@ -11,18 +11,15 @@ package Business;
  */
 public class destination {
 
-   
-Location[] Locations;
+    Location[] Locations;
+
     destination(int destinationSize) {
         Locations = new Location[destinationSize];
-        for(int i = 0 ;i<destinationSize;i++)
-        {
+        for (int i = 0; i < destinationSize; i++) {
             Location l = new Location(i);
             Locations[i] = l;
         }
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-  
-    
 }
