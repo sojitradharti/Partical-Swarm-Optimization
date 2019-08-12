@@ -21,10 +21,10 @@ import java.util.Random;
  */
 public class Swarm {
 
-    public ArrayList<Integer> gBestRoute; // pbest
+    public ArrayList<Double> gBestRoute; // pbest
     int gFitnessValue;
-    int[] gBestVelocity;
-    Thread process;
+    double[] gBestVelocity;
+     Thread process;
     Executor exe;
 
     private final ParticleModel parModel;
@@ -35,7 +35,7 @@ public class Swarm {
         this.parModel = db;
         this.graph = graph;
         gBestRoute = new ArrayList();
-        gBestVelocity = new int[locationCount];
+        gBestVelocity = new double[locationCount];
         gFitnessValue = Integer.MAX_VALUE;
         findGlobalBest(parModel.getArrParticle());
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -49,12 +49,16 @@ public class Swarm {
                 gBestVelocity = par.pBestVelocity;
             }
         }
-        System.out.println("gFitnessValue " + gFitnessValue + " gBestRoute " + gBestRoute + "gBestVelocity" + Arrays.toString(gBestVelocity));
+        System.out.println("global FitnessValue  " + gFitnessValue);
+        System.out.println("global BestRoute " + gBestRoute);
+        System.out.println("global BestVelocity" + Arrays.toString(gBestVelocity));
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("\n");
     }
 
     public void calculatebestSolution() {
-        for (Particle p : parModel.getArrParticle()) {
+      
+      for (Particle p : parModel.getArrParticle()) {
             exe = new Executor(p, graph, gBestRoute);
             process = new Thread(exe);
             process.start();
@@ -66,12 +70,16 @@ public class Swarm {
         } catch (InterruptedException e) {
             System.out.println("Main thread Interrupted");
         }
-
         //update all global variables after each paricle updated
         findGlobalBest(parModel.getArrParticle());
 
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    // to update velocity in each iteration
+   
+
+   
+
+   
+
 }

@@ -7,7 +7,7 @@ package Business;
 
 /**
  *
- * @author sojit
+ * @author kamini
  */
 public class Graph {
 

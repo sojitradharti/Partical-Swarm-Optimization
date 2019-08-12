@@ -17,12 +17,12 @@ import java.util.Random;
 public final class Particle {
 
     public String name;
-    public ArrayList<Integer> particleRoute; // xsolution
-    public ArrayList<Integer> PersonalBestRoute; // pbest
+    public ArrayList<Double> particleRoute; // xsolution
+    public ArrayList<Double> PersonalBestRoute; // pbest
     public int pFitnessValue;
     public int pBestValue;
-    public int[] pBestVelocity;
-    public int[] pVelocity;
+    public double[] pBestVelocity;
+    public double[] pVelocity;
 
     Graph graph = new Graph();
 
@@ -30,9 +30,9 @@ public final class Particle {
         setName(name);
         this.graph = graph;
         particleRoute = new ArrayList();
-        ArrayList<Integer> route = new ArrayList();
+        ArrayList<Double> route = new ArrayList();
         for (int i = 0; i <= 9; i++) {
-            route.add(i + 1);
+            route.add((double)i + 1);
         }
         Collections.shuffle(route);
         System.out.println("initial random particle route for particle " + name + " :" + route.toString());
@@ -40,25 +40,25 @@ public final class Particle {
         PersonalBestRoute = particleRoute;
         pFitnessValue = GenerateFitness();
         pBestValue = pFitnessValue;
-        pVelocity = setVelocity(10);// need to change to dynamic variable
+      pVelocity = setVelocity(particleRoute.size());// need to change to dynamic variable
         pBestVelocity = pVelocity;
 //       updateVelocity();
 
     }
 
-    public ArrayList<Integer> getParticleRoute() {
+    public ArrayList<Double> getParticleRoute() {
         return particleRoute;
     }
 
-    public void setParticleRoute(ArrayList<Integer> particleRoute) {
+    public void setParticleRoute(ArrayList<Double> particleRoute) {
         this.particleRoute = particleRoute;
     }
 
-    public ArrayList<Integer> getPersonalBestRoute() {
+    public ArrayList<Double> getPersonalBestRoute() {
         return PersonalBestRoute;
     }
 
-    public void setPersonalBestRoute(ArrayList<Integer> PersonalBestRoute) {
+    public void setPersonalBestRoute(ArrayList<Double> PersonalBestRoute) {
         this.PersonalBestRoute = PersonalBestRoute;
     }
 
@@ -67,7 +67,7 @@ public final class Particle {
     }
 
     public void setName(int name) {
-        this.name = "person " + name;
+        this.name = " " + (name+1);
     }
 
     private int GenerateFitness() {
@@ -88,19 +88,19 @@ public final class Particle {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private int[] setVelocity(int par) {
-        this.pVelocity = new int[par];
+    private double[] setVelocity(int par) {
+        this.pVelocity = new double[par];
         // randomly generate the velocity
         for (int i = 0; i < par; i++) {
             this.pVelocity[i] = getRandomVelocity(par);
         }
         return this.pVelocity;
-        //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //  throw new UnsupportedOpSSerationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private int getRandomVelocity(int upper) {
+    private double getRandomVelocity(int upper) {
         int lower = 0;
-        return (int) (new Random().nextDouble() * (upper - lower)) + lower;
+        return (new Random().nextDouble() * (upper - lower)) + lower;
     }
 
 }

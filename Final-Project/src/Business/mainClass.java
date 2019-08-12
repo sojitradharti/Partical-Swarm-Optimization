@@ -8,8 +8,6 @@ package Business;
 import PSO.Particle;
 
 import PSO.Swarm;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -23,7 +21,7 @@ public class mainClass {
     static Graph graph = new Graph();
     static ParticleModel pm;
     static Location loc;
-    static int Iterations = 100;
+    static int Iterations = 20;
     static Swarm swarm;
 
     public static void main(String[] args) {
@@ -46,8 +44,8 @@ public class mainClass {
         CreateSwarm();
         //  Map<String, Map<Double, Double>> particleProgress = new HashMap<String, Map<Double,Double>>();
         //iterations to get best solution.
-        for (int t = 1; t <= 10; t++) {
-            System.out.println("Iteration :" + t + "\n\n");
+        for (int t = 1; t <= Iterations; t++) {
+            System.out.println("-------------------------------------Iteration :" + t + "-------------------------------------\n");
             swarm.calculatebestSolution();
             //swarm.printIterationResults(t, particleProgress);			
         }
