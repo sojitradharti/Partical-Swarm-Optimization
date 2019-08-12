@@ -10,7 +10,9 @@ package Business;
  * @author Kamini
  */
 public class Location {
-     public String name;
+
+    public String name;
+
     public String getName() {
         return name;
     }
@@ -18,9 +20,8 @@ public class Location {
     public void setName(int name) {
         this.name = "Location " + name;
     }
-   
-    public Location(int name)
-    {
+
+    public Location(int name) {
         setName(name);
     }
 }

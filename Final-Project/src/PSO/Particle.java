@@ -19,10 +19,10 @@ public final class Particle {
     public String name;
     public ArrayList<Double> particleRoute; // xsolution
     public ArrayList<Double> PersonalBestRoute; // pbest
-    int pFitnessValue;
-    int pBestValue;
-    double[] pBestVelocity;
-    double[] pVelocity;
+    public int pFitnessValue;
+    public int pBestValue;
+    public double[] pBestVelocity;
+    public double[] pVelocity;
 
     Graph graph = new Graph();
 
