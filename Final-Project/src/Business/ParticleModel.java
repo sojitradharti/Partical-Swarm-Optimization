@@ -10,7 +10,7 @@ import PSO.Particle;
 
 /**
  *
- * @author sojit
+ * @author Kamini
  */
 public class ParticleModel {
  public Particle[] arrParticle ; 
