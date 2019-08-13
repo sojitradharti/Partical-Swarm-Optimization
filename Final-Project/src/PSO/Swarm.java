@@ -12,7 +12,8 @@ import Business.Location;
 import Business.ParticleModel;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 //http://gardeux-vincent.eu/These/Papiers/Bibli2/Schutte03.pdf
 /**
@@ -24,7 +25,7 @@ public class Swarm {
     public ArrayList<Double> gBestRoute; // pbest
     int gFitnessValue;
     double[] gBestVelocity;
-     Thread process;
+    Thread process;
     Executor exe;
 
     private final ParticleModel parModel;
@@ -57,29 +58,22 @@ public class Swarm {
     }
 
     public void calculatebestSolution() {
-      
-      for (Particle p : parModel.getArrParticle()) {
+
+        for (Particle p : parModel.getArrParticle()) {
             exe = new Executor(p, graph, gBestRoute);
             process = new Thread(exe);
             process.start();
 
         }
         try {
-            // System.out.println("Waiting for threads to finish.");
-            process.join();
-        } catch (InterruptedException e) {
-            System.out.println("Main thread Interrupted");
+            Thread.sleep(7000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Swarm.class.getName()).log(Level.SEVERE, null, ex);
         }
         //update all global variables after each paricle updated
         findGlobalBest(parModel.getArrParticle());
 
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-   
-
-   
-
-   
 
 }

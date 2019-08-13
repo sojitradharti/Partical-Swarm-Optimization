@@ -8,13 +8,12 @@ package Business;
 import PSO.Particle;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 
 /**
  *
  * @author sojit
  */
-public class Executor implements Runnable {
+public class Executor extends Thread {
 
     public Particle p;
     public Graph graph = new Graph();
@@ -24,15 +23,15 @@ public class Executor implements Runnable {
         this.p = p;
         this.graph = graph;
         this.gBestRoute = gBestRoute;
+        // TimerTask tt = new TimerTask();
         //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public   void run() {
-        synchronized(p)
-        {
-       // System.err.println("For Particle :" + p.name);
-            // System.out.println("For particle :" + p.name);;
+    public void run() {
+        synchronized (this) {
+            // System.err.println("For Particle :" + p.name);
+            System.err.println("For particle :" + p.name);;
             //  velocity
             findNewVelocity(p);
 
@@ -48,23 +47,15 @@ public class Executor implements Runnable {
                 p.pBestValue = p.pFitnessValue;
                 p.pBestVelocity = p.pVelocity;
             }
+            System.out.println("PersonalBestRoute " + p.PersonalBestRoute);
+            System.out.println("p Fitness " + p.pFitnessValue + "  PBestValue " + p.pBestValue);
+            System.out.println("P Best Velocity " + Arrays.toString(p.pBestVelocity));
         }
-//              System.out.println("PersonalBestRoute " + p.PersonalBestRoute);
-//            System.out.println( "p Fitness " + p.pFitnessValue + "  PBestValue " + p.pBestValue);
-//            System.out.println("P Best Velocity " + Arrays.toString(p.pBestVelocity));
-//            System.out.println("\n");
-            // System.out.println("PersonalBestRoute   pBestValue  pBestVelocity"  );
-          //  System.out.println(p.PersonalBestRoute + "," + p.pBestValue + ", " + Arrays.toString(p.pBestVelocity));
-            // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        
+        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-  // to update velocity in each iteration
+    // to update velocity in each iteration
     private void findNewVelocity(Particle p) {
-//    { 
-//        int rangeMax = 1;
-//        int rangeMin = 0;
-//        Random r = new Random();
         double w = 0.6;
 
         double o1 = 0.2;
@@ -72,9 +63,6 @@ public class Executor implements Runnable {
 
         double o2 = 0.2;
         double b2 = 0.5;
-//        double r1 = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
-//        double r2 = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
-//        double r3 = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
         double[] newVelocity = new double[p.pVelocity.length];
         for (int i = 0; i < newVelocity.length; i++) {
             double inertia = w * p.pVelocity[i];
@@ -88,8 +76,6 @@ public class Executor implements Runnable {
         p.pVelocity = newVelocity;
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-   
 
     private int generateFitnessValue(ArrayList<Double> particleRoute) {
         int initial = 0;
@@ -109,7 +95,8 @@ public class Executor implements Runnable {
         return sum;
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
- // learning function to update route of particle in next iteration
+
+    // learning function to update route of particle in next iteration
     private void updatePosition(Particle p) {
         int value = 0;
         for (int i = 0; i < p.particleRoute.size(); i++) {
