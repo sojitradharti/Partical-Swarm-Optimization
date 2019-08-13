@@ -21,8 +21,10 @@ public class Main extends javax.swing.JFrame {
 
     public static int ParticleCount;
     public static int noOfLocations;
+    public static int maxLocationDemand;
+    public static int maxSalesmanCapacity;
     int target;
-    static Graph graph = new Graph();
+    static Graph graph;
     static ParticleModel pm;
     static Location loc;
     static int iterations;
@@ -55,6 +57,10 @@ public class Main extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         targetInput = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        maxPacket = new javax.swing.JLabel();
+        maxPacketInput = new javax.swing.JTextField();
+        locDemand = new javax.swing.JLabel();
+        maxLocDemand = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,9 +69,9 @@ public class Main extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Particle Swarm Optimization");
 
-        particleCount.setText("Enter number of Particles :");
+        particleCount.setText("Number of Salesperson :");
 
-        locationCount.setText("Enter number of locations : ");
+        locationCount.setText("Number of locations : ");
 
         particlesInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -96,6 +102,10 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        maxPacket.setText("Max Packet carried by Salesperson :");
+
+        locDemand.setText("Max location's demand :");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -111,17 +121,21 @@ public class Main extends javax.swing.JFrame {
                             .addComponent(particleCount)
                             .addComponent(locationCount)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(119, 119, 119)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(locationinput, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
-                            .addComponent(particlesInput)
-                            .addComponent(IterationInput)
-                            .addComponent(targetInput)))
+                            .addComponent(jLabel3)
+                            .addComponent(maxPacket)
+                            .addComponent(locDemand))
+                        .addGap(61, 61, 61)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(maxPacketInput, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(particlesInput, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(locationinput, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(maxLocDemand, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(IterationInput, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(targetInput, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(235, 235, 235)
                         .addComponent(jButton1)))
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addContainerGap(134, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,19 +146,27 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(particleCount)
                     .addComponent(particlesInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
+                .addGap(10, 10, 10)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(maxPacket)
+                    .addComponent(maxPacketInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(locationCount)
                     .addComponent(locationinput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
+                .addGap(10, 10, 10)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(locDemand)
+                    .addComponent(maxLocDemand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(IterationInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(targetInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(42, 42, 42))
         );
@@ -181,13 +203,17 @@ public class Main extends javax.swing.JFrame {
         noOfLocations = Integer.parseInt(locationinput.getText());
         iterations = Integer.parseInt(IterationInput.getText());
         target = Integer.parseInt(targetInput.getText());
+        maxSalesmanCapacity = Integer.parseInt(maxPacketInput.getText());
+        maxLocationDemand = Integer.parseInt(maxLocDemand.getText());
+
         if (particlesInput.getText().isEmpty() && locationinput.getText().isEmpty() && IterationInput.getText().isEmpty() && targetInput.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "please enter all the fields");
         }
-
+        graph = new Graph(noOfLocations);
         CreateGraph();
-        pm = new ParticleModel(ParticleCount, graph);
-        loc = new Location(noOfLocations);
+        pm = new ParticleModel(ParticleCount, graph, maxSalesmanCapacity, noOfLocations);
+        loc = new Location(noOfLocations, maxLocationDemand);
+
         print(pm.arrParticle);
         // print graph adjacency matrix
         System.out.println("The adjacency matrix for the given graph is: ");
@@ -280,8 +306,12 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel locDemand;
     private javax.swing.JLabel locationCount;
     private javax.swing.JTextField locationinput;
+    private javax.swing.JTextField maxLocDemand;
+    private javax.swing.JLabel maxPacket;
+    private javax.swing.JTextField maxPacketInput;
     private javax.swing.JLabel particleCount;
     private javax.swing.JTextField particlesInput;
     private javax.swing.JTextField targetInput;

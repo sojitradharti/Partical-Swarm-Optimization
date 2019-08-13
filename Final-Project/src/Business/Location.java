@@ -5,6 +5,8 @@
  */
 package Business;
 
+import java.util.Random;
+
 /**
  *
  * @author Kamini
@@ -12,6 +14,12 @@ package Business;
 public class Location {
 
     public String name;
+    int maxDemand;
+
+    public Location(int name, int maxDemand) {
+        this.maxDemand = getRandomMaxDemand(maxDemand);
+        setName(name);
+    }
 
     public String getName() {
         return name;
@@ -21,7 +29,9 @@ public class Location {
         this.name = "Location " + name;
     }
 
-    public Location(int name) {
-        setName(name);
+    private int getRandomMaxDemand(int maxDemand) {
+        Random ran = new Random();
+        return ran.nextInt(maxDemand);
     }
+
 }

@@ -12,6 +12,7 @@ package Business;
 public class Graph {
 
     private int[][] adjacency_matrix;
+    int size;
 
     public int[][] getAdjacency_matrix() {
         return adjacency_matrix;
@@ -21,9 +22,10 @@ public class Graph {
         this.adjacency_matrix = adjacency_matrix;
     }
 
-    public Graph() {
-
-        adjacency_matrix = new int[11][11];
+    public Graph(int size) {
+        this.size = size;
+        int x = size + 1;
+        adjacency_matrix = new int[x][x];
         setAdjacency_matrix(adjacency_matrix);
     }
 

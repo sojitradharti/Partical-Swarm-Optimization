@@ -17,30 +17,42 @@ import java.util.Random;
 public final class Particle {
 
     public String name;
+    public int maxCapacity;
     public ArrayList<Double> particleRoute; // xsolution
     public ArrayList<Double> PersonalBestRoute; // pbest
     public int pFitnessValue;
     public int pBestValue;
     public double[] pBestVelocity;
     public double[] pVelocity;
+    int noOfLoc;
 
-    Graph graph = new Graph();
+    public int getMaxCapacity() {
+        return maxCapacity;
+    }
 
-    public Particle(int name, Graph graph) {
+    public void setMaxCapacity(int maxCapacity) {
+        this.maxCapacity = maxCapacity;
+    }
+
+    Graph graph;
+
+    public Particle(int name, Graph graph, int maxCapacity, int noOfLoc) {
+        this.noOfLoc = noOfLoc;
+        this.maxCapacity = maxCapacity;
         setName(name);
         this.graph = graph;
         particleRoute = new ArrayList();
         ArrayList<Double> route = new ArrayList();
-        for (int i = 0; i <= 9; i++) {
-            route.add((double)i + 1);
+        for (int i = 0; i <= noOfLoc - 1; i++) {
+            route.add((double) i + 1);
         }
         Collections.shuffle(route);
-        System.out.println("initial random particle route for particle " + name + " :" + route.toString());
+        System.out.println("Initial particle route for particle " + name + " :" + route.toString());
         particleRoute = route;
         PersonalBestRoute = particleRoute;
         pFitnessValue = GenerateFitness();
         pBestValue = pFitnessValue;
-      pVelocity = setVelocity(particleRoute.size());// need to change to dynamic variable
+        pVelocity = setVelocity(particleRoute.size());// need to change to dynamic variable
         pBestVelocity = pVelocity;
 //       updateVelocity();
 
@@ -67,7 +79,7 @@ public final class Particle {
     }
 
     public void setName(int name) {
-        this.name = " " + (name+1);
+        this.name = " " + (name + 1);
     }
 
     private int GenerateFitness() {

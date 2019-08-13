@@ -29,7 +29,7 @@ public class Swarm {
     Executor exe;
 
     private final ParticleModel parModel;
-    public Graph graph = new Graph();
+    public Graph graph;
 
     public Swarm(ParticleModel db, Location loc, int locationCount, Graph graph) {
         //find global best	
@@ -50,6 +50,7 @@ public class Swarm {
                 gBestVelocity = par.pBestVelocity;
             }
         }
+        System.out.println("----------------------------Global Solution----------------------------");
         System.out.println("global FitnessValue  " + gFitnessValue);
         System.out.println("global BestRoute " + gBestRoute);
         System.out.println("global BestVelocity" + Arrays.toString(gBestVelocity));

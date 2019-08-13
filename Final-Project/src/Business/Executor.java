@@ -16,7 +16,7 @@ import java.util.Arrays;
 public class Executor extends Thread {
 
     public Particle p;
-    public Graph graph = new Graph();
+    public Graph graph;
     public ArrayList<Double> gBestRoute;
 
     public Executor(Particle p, Graph graph, ArrayList<Double> gBestRoute) {
@@ -32,6 +32,7 @@ public class Executor extends Thread {
         synchronized (this) {
             // System.err.println("For Particle :" + p.name);
             System.err.println("For particle :" + p.name);;
+            System.err.println(Thread.currentThread().getName());
             //  velocity
             findNewVelocity(p);
 
@@ -50,26 +51,22 @@ public class Executor extends Thread {
             System.out.println("PersonalBestRoute " + p.PersonalBestRoute);
             System.out.println("p Fitness " + p.pFitnessValue + "  PBestValue " + p.pBestValue);
             System.out.println("P Best Velocity " + Arrays.toString(p.pBestVelocity));
+            Thread.currentThread().interrupt();
         }
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     // to update velocity in each iteration
     private void findNewVelocity(Particle p) {
-        double w = 0.6;
-
-        double o1 = 0.2;
-        double b1 = 0.3;
-
-        double o2 = 0.2;
-        double b2 = 0.5;
+        double w = 0.729; 		//inertia weight
+        double c1 = 1.49445; 	//local best
+        double c2 = 1.49445;//gbest
         double[] newVelocity = new double[p.pVelocity.length];
         for (int i = 0; i < newVelocity.length; i++) {
             double inertia = w * p.pVelocity[i];
-            double cognitiveComp = o1 * b1 * (p.PersonalBestRoute.get(i) - p.particleRoute.get(i));
-            double socialComp = o2 * b2 * (gBestRoute.get(i) - p.particleRoute.get(i));
+            double cognitiveComp = c1 * (p.PersonalBestRoute.get(i) - p.particleRoute.get(i));
+            double socialComp = c2 * (gBestRoute.get(i) - p.particleRoute.get(i));
             newVelocity[i] = Math.round((inertia + cognitiveComp + socialComp) * 100.0) / 100.0;
-            // newVelocity[i] = inertia + cognitiveComp + socialComp;
             // Math.round(a * 100.0) / 100.0;
 
         }

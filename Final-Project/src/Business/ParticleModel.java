@@ -6,6 +6,7 @@
 package Business;
 
 import PSO.Particle;
+import java.util.Random;
 
 /**
  *
@@ -14,15 +15,25 @@ import PSO.Particle;
 public class ParticleModel {
 
     public Particle[] arrParticle;
+    public int cap;
+    int locations;
 
-    public ParticleModel(int size, Graph graph) {
+    public ParticleModel(int size, Graph graph, int cap, int locations) {
+        this.cap = cap;
+        this.locations =locations;
         arrParticle = new Particle[size];
         for (int i = 0; i < size; i++) {
-            Particle particle = new Particle(i, graph);
+            Particle particle = new Particle(i, graph, generateRandomCapacity(cap), locations);
 
             arrParticle[i] = particle;
         }
         setArrGuy(arrParticle);
+    }
+
+    public int generateRandomCapacity(int cap) {
+        Random ran = new Random();
+        int k = ran.nextInt(cap);
+        return k;
     }
 
     public Particle[] getArrParticle() {

@@ -56,13 +56,17 @@
                               <Component id="locationCount" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="maxPacket" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="locDemand" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="119" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="locationinput" pref="71" max="32767" attributes="0"/>
-                              <Component id="particlesInput" max="32767" attributes="0"/>
-                              <Component id="IterationInput" alignment="0" max="32767" attributes="0"/>
-                              <Component id="targetInput" alignment="0" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="maxPacketInput" min="-2" pref="71" max="-2" attributes="0"/>
+                              <Component id="particlesInput" min="-2" pref="71" max="-2" attributes="0"/>
+                              <Component id="locationinput" alignment="0" min="-2" pref="71" max="-2" attributes="0"/>
+                              <Component id="maxLocDemand" alignment="0" min="-2" pref="71" max="-2" attributes="0"/>
+                              <Component id="IterationInput" alignment="0" min="-2" pref="71" max="-2" attributes="0"/>
+                              <Component id="targetInput" min="-2" pref="71" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -70,7 +74,7 @@
                           <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="117" max="32767" attributes="0"/>
+                  <EmptySpace pref="134" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -84,22 +88,32 @@
                       <Component id="particleCount" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="particlesInput" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="maxPacket" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="maxPacketInput" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="locationCount" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="locationinput" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="locDemand" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="maxLocDemand" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="IterationInput" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="targetInput" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="43" max="32767" attributes="0"/>
+                  <EmptySpace pref="50" max="32767" attributes="0"/>
                   <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
               </Group>
@@ -117,12 +131,12 @@
         </Component>
         <Component class="javax.swing.JLabel" name="particleCount">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Enter number of Particles :"/>
+            <Property name="text" type="java.lang.String" value="Number of Salesperson :"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="locationCount">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Enter number of locations : "/>
+            <Property name="text" type="java.lang.String" value="Number of locations : "/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="particlesInput">
@@ -159,6 +173,20 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="maxPacket">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Max Packet carried by Salesperson :"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="maxPacketInput">
+        </Component>
+        <Component class="javax.swing.JLabel" name="locDemand">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Max location&apos;s demand :"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="maxLocDemand">
         </Component>
       </SubComponents>
     </Container>
