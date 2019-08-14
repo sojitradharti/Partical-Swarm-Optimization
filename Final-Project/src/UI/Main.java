@@ -77,18 +77,18 @@ public class Main extends javax.swing.JFrame {
 
         locationCount.setText("Number of locations : ");
 
-        particlesInput.setText("4");
+        particlesInput.setText("10");
         particlesInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 particlesInputActionPerformed(evt);
             }
         });
 
-        locationinput.setText("7");
+        locationinput.setText("20");
 
         jLabel2.setText("Max Iterations :");
 
-        IterationInput.setText("6");
+        IterationInput.setText("15");
         IterationInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 IterationInputActionPerformed(evt);
@@ -246,13 +246,15 @@ public class Main extends javax.swing.JFrame {
         CreateSwarm();
         //  Map<String, Map<Double, Double>> particleProgress = new HashMap<String, Map<Double,Double>>();
         //iterations to get best solution.
-        for (int t = 1; t <= iterations; t++) {
-            System.out.println("-------------------------------------Iteration :" + t + "-------------------------------------\n");
+         HashMap<String, Map<Double, Double>> particles = new HashMap<String, Map<Double, Double>>();
+        for (int num = 1; num <= iterations; num++) {
+            System.out.println("-------------------------------------Iteration :" + num + "-------------------------------------\n");
             swarm.calculatebestSolution();
+            swarm.getParticleProgress(num, particles);
             //swarm.printIterationResults(t, particleProgress);			
         }
         //swarm.getParticleProgress();
-        LineChart chart = new LineChart("Particles", swarm.getParticleProgress());
+        LineChart chart = new LineChart("Particles", particles);
         chart.pack();
         RefineryUtilities.centerFrameOnScreen(chart);
         chart.setVisible(true);

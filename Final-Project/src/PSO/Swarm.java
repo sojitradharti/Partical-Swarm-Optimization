@@ -86,22 +86,23 @@ public class Swarm {
 
     }
 
-    public HashMap<String, Map<Double, Double>> getParticleProgress() {
-        HashMap<String, Map<Double, Double>> particles = new HashMap<String, Map<Double, Double>>();
-        int num = 1;
-        int count = 0;
+    public void getParticleProgress(int num, Map<String, Map<Double, Double>> particles) {
+
+        //  System.out.print(t + " \t\t");
+        int count = 1;
         for (Particle p : parModel.getArraySalesperson()) {
-            if (particles.get("p" + num) == null) {
-                particles.put("p" + num, new HashMap<Double, Double>());
+            if (particles.get("p" + count) == null) {
+                particles.put("p" + count, new HashMap<Double, Double>());
             }
 
-            particles.get("p" + num).put((double) count, (double) p.getpBestValue());
-            //    System.out.print((double)p.getpBestValue + "\t\t");
+            particles.get("p" + count).put((double) num, p.pBestValue);
+            System.out.print(p.pFitnessValue + "\t" + p.pBestValue + "\t\t");
             //  System.out.println(p.xSolution.toString());
             //  System.out.println(p.pVelocity.toString());
-            num++;
             count++;
         }
-        return particles;
+        System.out.println(gFitnessValue);
     }
 }
+        // return particles;
+
