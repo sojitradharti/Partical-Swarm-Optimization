@@ -27,7 +27,7 @@ public class ParticleModel {
 
             arrParticle[i] = particle;
         }
-        setArrGuy(arrParticle);
+        setArraySalesperson(arrParticle);
     }
 
     public int generateRandomCapacity(int cap) {
@@ -36,11 +36,11 @@ public class ParticleModel {
         return k;
     }
 
-    public Particle[] getArrParticle() {
+    public Particle[] getArraySalesperson() {
         return arrParticle;
     }
 
-    public void setArrGuy(Particle[] arrParticle) {
+    public void setArraySalesperson(Particle[] arrParticle) {
         this.arrParticle = arrParticle;
     }
 

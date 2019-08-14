@@ -8,10 +8,14 @@ package UI;
 import Business.Graph;
 import Business.Location;
 import Business.ParticleModel;
+import Graph.LineChart;
 import PSO.Particle;
 import PSO.Swarm;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import javax.swing.JOptionPane;
+import org.jfree.ui.RefineryUtilities;
 
 /**
  *
@@ -73,14 +77,18 @@ public class Main extends javax.swing.JFrame {
 
         locationCount.setText("Number of locations : ");
 
+        particlesInput.setText("4");
         particlesInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 particlesInputActionPerformed(evt);
             }
         });
 
+        locationinput.setText("7");
+
         jLabel2.setText("Max Iterations :");
 
+        IterationInput.setText("6");
         IterationInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 IterationInputActionPerformed(evt);
@@ -89,6 +97,7 @@ public class Main extends javax.swing.JFrame {
 
         jLabel3.setText("Target Value : ");
 
+        targetInput.setText("14");
         targetInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 targetInputActionPerformed(evt);
@@ -104,7 +113,16 @@ public class Main extends javax.swing.JFrame {
 
         maxPacket.setText("Max Packet carried by Salesperson :");
 
+        maxPacketInput.setText("2");
+        maxPacketInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                maxPacketInputActionPerformed(evt);
+            }
+        });
+
         locDemand.setText("Max location's demand :");
+
+        maxLocDemand.setText("3");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -233,7 +251,17 @@ public class Main extends javax.swing.JFrame {
             swarm.calculatebestSolution();
             //swarm.printIterationResults(t, particleProgress);			
         }
+        //swarm.getParticleProgress();
+        LineChart chart = new LineChart("Particles", swarm.getParticleProgress());
+        chart.pack();
+        RefineryUtilities.centerFrameOnScreen(chart);
+        chart.setVisible(true);
+
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void maxPacketInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maxPacketInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_maxPacketInputActionPerformed
 
     /**
      * @param args the command line arguments

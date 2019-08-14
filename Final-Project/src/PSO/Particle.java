@@ -18,10 +18,18 @@ public final class Particle {
 
     public String name;
     public int maxCapacity;
-    public ArrayList<Double> particleRoute; // xsolution
-    public ArrayList<Double> PersonalBestRoute; // pbest
-    public int pFitnessValue;
-    public int pBestValue;
+    public ArrayList<Double> particleRoute;
+    public ArrayList<Double> personalBestRoute;
+    public double pFitnessValue;
+    public double pBestValue;
+
+    public double getpBestValue() {
+        return pBestValue;
+    }
+
+    public void setpBestValue(double pBestValue) {
+        this.pBestValue = pBestValue;
+    }
     public double[] pBestVelocity;
     public double[] pVelocity;
     int noOfLoc;
@@ -49,10 +57,11 @@ public final class Particle {
         Collections.shuffle(route);
         System.out.println("Initial particle route for particle " + name + " :" + route.toString());
         particleRoute = route;
-        PersonalBestRoute = particleRoute;
+        personalBestRoute = particleRoute;
         pFitnessValue = GenerateFitness();
         pBestValue = pFitnessValue;
-        pVelocity = setVelocity(particleRoute.size());// need to change to dynamic variable
+        setpBestValue(pBestValue);
+        pVelocity = setVelocity(particleRoute.size());
         pBestVelocity = pVelocity;
 //       updateVelocity();
 
@@ -67,11 +76,11 @@ public final class Particle {
     }
 
     public ArrayList<Double> getPersonalBestRoute() {
-        return PersonalBestRoute;
+        return personalBestRoute;
     }
 
     public void setPersonalBestRoute(ArrayList<Double> PersonalBestRoute) {
-        this.PersonalBestRoute = PersonalBestRoute;
+        this.personalBestRoute = PersonalBestRoute;
     }
 
     public String getName() {
@@ -87,8 +96,8 @@ public final class Particle {
         int sum = 0;
 
         //return the value of objective function
-        for (int i = 0; i < PersonalBestRoute.size() - 1; i++) {
-            int v = (int) Math.round(PersonalBestRoute.get(i));
+        for (int i = 0; i < personalBestRoute.size() - 1; i++) {
+            int v = (int) Math.round(personalBestRoute.get(i));
             sum += graph.getAdjacency_matrix()[initial][v];
             initial = v;
         }
@@ -96,7 +105,6 @@ public final class Particle {
         sum += graph.getAdjacency_matrix()[initial][0]; // add distance back to the depot
 
         return sum;
-        //set fitnessSum;
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

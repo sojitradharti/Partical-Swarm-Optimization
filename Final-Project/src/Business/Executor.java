@@ -29,72 +29,74 @@ public class Executor extends Thread {
 
     @Override
     public void run() {
-        synchronized (this) {
+        synchronized (p) {
             // System.err.println("For Particle :" + p.name);
-            System.err.println("For particle :" + p.name);;
-            System.err.println(Thread.currentThread().getName());
-            //  velocity
+            System.out.println("For particle :" + p.name);;
+         //   System.err.println(Thread.currentThread().getName());
             findNewVelocity(p);
-
-            // find new Route
-            updatePosition(p);
-
+            findNewPosition(p);
             // update the fitness value of the particles
             p.pFitnessValue = generateFitnessValue(p.particleRoute);
 
             // update pBest of the particle
             if (p.pFitnessValue < p.pBestValue) {
-                p.PersonalBestRoute = p.particleRoute;
+                p.personalBestRoute = p.particleRoute;
                 p.pBestValue = p.pFitnessValue;
                 p.pBestVelocity = p.pVelocity;
             }
-            System.out.println("PersonalBestRoute " + p.PersonalBestRoute);
+            System.out.println("PersonalBestRoute " + p.personalBestRoute);
             System.out.println("p Fitness " + p.pFitnessValue + "  PBestValue " + p.pBestValue);
             System.out.println("P Best Velocity " + Arrays.toString(p.pBestVelocity));
-            Thread.currentThread().interrupt();
+            // Thread.currentThread().interrupt();
         }
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     // to update velocity in each iteration
     private void findNewVelocity(Particle p) {
-        double w = 0.729; 		//inertia weight
-        double c1 = 1.49445; 	//local best
-        double c2 = 1.49445;//gbest
+        double w = 0.6; //inertia weight
+        double c1 = 0.6;//local best
+        double c2 = 0.1;//global best
         double[] newVelocity = new double[p.pVelocity.length];
         for (int i = 0; i < newVelocity.length; i++) {
             double inertia = w * p.pVelocity[i];
-            double cognitiveComp = c1 * (p.PersonalBestRoute.get(i) - p.particleRoute.get(i));
+            double cognitiveComp = c1 * (p.personalBestRoute.get(i) - p.particleRoute.get(i));
             double socialComp = c2 * (gBestRoute.get(i) - p.particleRoute.get(i));
-            newVelocity[i] = Math.round((inertia + cognitiveComp + socialComp) * 100.0) / 100.0;
+            newVelocity[i] = inertia + cognitiveComp + socialComp;
             // Math.round(a * 100.0) / 100.0;
-
         }
         p.pVelocity = newVelocity;
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private int generateFitnessValue(ArrayList<Double> particleRoute) {
-        int initial = 0;
-        int sum = 0;
+    private double generateFitnessValue(ArrayList<Double> particleRoute) {
+       
+        double initial = 0;
+        double sum = 0;
 
         //return the value of objective function
-        for (int i = 0; i < particleRoute.size() - 1; i++) {
-
-            int v = (int) Math.round(particleRoute.get(i));
+        for (int i = 0; i < particleRoute.size()-1; i++) {
+            double v = particleRoute.get(i);
             // System.out.println("initial :" + initial + " v :" +v );
-            sum += graph.getAdjacency_matrix()[initial][v];
-            initial = v;
+            try
+        {
+            sum += graph.getAdjacency_matrix()[(int)initial][(int)v];
+             initial = v;
+            }
+        catch(ArrayIndexOutOfBoundsException exception)
+        {
+             System.err.println("initial " + initial + "v :" + v);
         }
-
-        sum += graph.getAdjacency_matrix()[initial][0]; // add distance back to the depot
-
+           
+        }
+        sum += graph.getAdjacency_matrix()[(int)initial][0];
         return sum;
+        
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     // learning function to update route of particle in next iteration
-    private void updatePosition(Particle p) {
+    private void findNewPosition(Particle p) {
         int value = 0;
         for (int i = 0; i < p.particleRoute.size(); i++) {
             //value = p.particleRoute.get(i) + p.pVelocity[i] > p.particleRoute.size() ? p.particleRoute.size() :p.particleRoute.get(i) + p.pVelocity[i];

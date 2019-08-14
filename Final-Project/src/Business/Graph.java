@@ -11,22 +11,22 @@ package Business;
  */
 public class Graph {
 
-    private int[][] adjacency_matrix;
+    private double[][] adjacency_matrix;
     int size;
-
-    public int[][] getAdjacency_matrix() {
-        return adjacency_matrix;
-    }
-
-    public void setAdjacency_matrix(int[][] adjacency_matrix) {
-        this.adjacency_matrix = adjacency_matrix;
-    }
 
     public Graph(int size) {
         this.size = size;
         int x = size + 1;
-        adjacency_matrix = new int[x][x];
+        adjacency_matrix = new double[x][x];
         setAdjacency_matrix(adjacency_matrix);
+    }
+
+    public double[][] getAdjacency_matrix() {
+        return adjacency_matrix;
+    }
+
+    public void setAdjacency_matrix(double[][] adjacency_matrix) {
+        this.adjacency_matrix = adjacency_matrix;
     }
 
     public void addEdge(int to, int from, int edge) {
@@ -38,7 +38,7 @@ public class Graph {
         }
     }
 
-    public int getEdge(int to, int from) {
+    public double getEdge(int to, int from) {
         try {
             return adjacency_matrix[to][from];
         } catch (ArrayIndexOutOfBoundsException index) {
