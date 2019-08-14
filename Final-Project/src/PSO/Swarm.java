@@ -12,7 +12,10 @@ import Business.Location;
 import Business.ParticleModel;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 //http://gardeux-vincent.eu/These/Papiers/Bibli2/Schutte03.pdf
 /**
@@ -22,13 +25,13 @@ import java.util.Random;
 public class Swarm {
 
     public ArrayList<Double> gBestRoute; // pbest
-    int gFitnessValue;
+    double gFitnessValue;
     double[] gBestVelocity;
-     Thread process;
+    Thread process;
     Executor exe;
 
     private final ParticleModel parModel;
-    public Graph graph = new Graph();
+    public Graph graph;
 
     public Swarm(ParticleModel db, Location loc, int locationCount, Graph graph) {
         //find global best	
@@ -36,8 +39,8 @@ public class Swarm {
         this.graph = graph;
         gBestRoute = new ArrayList();
         gBestVelocity = new double[locationCount];
-        gFitnessValue = Integer.MAX_VALUE;
-        findGlobalBest(parModel.getArrParticle());
+        gFitnessValue = Double.MAX_VALUE;
+        findGlobalBest(parModel.getArraySalesperson());
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -49,6 +52,7 @@ public class Swarm {
                 gBestVelocity = par.pBestVelocity;
             }
         }
+        System.out.println("---------------Global Solution---------------");
         System.out.println("global FitnessValue  " + gFitnessValue);
         System.out.println("global BestRoute " + gBestRoute);
         System.out.println("global BestVelocity" + Arrays.toString(gBestVelocity));
@@ -57,29 +61,47 @@ public class Swarm {
     }
 
     public void calculatebestSolution() {
-      
-      for (Particle p : parModel.getArrParticle()) {
+
+        for (Particle p : parModel.getArraySalesperson()) {
             exe = new Executor(p, graph, gBestRoute);
             process = new Thread(exe);
             process.start();
 
         }
+
         try {
-            // System.out.println("Waiting for threads to finish.");
-            process.join();
-        } catch (InterruptedException e) {
-            System.out.println("Main thread Interrupted");
+            Thread.sleep(2000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Swarm.class.getName()).log(Level.SEVERE, null, ex);
         }
         //update all global variables after each paricle updated
-        findGlobalBest(parModel.getArrParticle());
+        findGlobalBest(parModel.getArraySalesperson());
+        try {
+            Thread.sleep(2000);
 
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Swarm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
-   
+    public HashMap<String, Map<Double, Double>> getParticleProgress() {
+        HashMap<String, Map<Double, Double>> particles = new HashMap<String, Map<Double, Double>>();
+        int num = 1;
+        int count = 0;
+        for (Particle p : parModel.getArraySalesperson()) {
+            if (particles.get("p" + num) == null) {
+                particles.put("p" + num, new HashMap<Double, Double>());
+            }
 
-   
-
-   
-
+            particles.get("p" + num).put((double) count, (double) p.getpBestValue());
+            //    System.out.print((double)p.getpBestValue + "\t\t");
+            //  System.out.println(p.xSolution.toString());
+            //  System.out.println(p.pVelocity.toString());
+            num++;
+            count++;
+        }
+        return particles;
+    }
 }
