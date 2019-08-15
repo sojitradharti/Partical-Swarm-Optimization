@@ -11,6 +11,7 @@ import Business.ParticleModel;
 import Graph.LineChart;
 import PSO.Particle;
 import PSO.Swarm;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -77,18 +78,18 @@ public class Main extends javax.swing.JFrame {
 
         locationCount.setText("Number of locations : ");
 
-        particlesInput.setText("4");
+        particlesInput.setText("10");
         particlesInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 particlesInputActionPerformed(evt);
             }
         });
 
-        locationinput.setText("7");
+        locationinput.setText("12");
 
         jLabel2.setText("Max Iterations :");
 
-        IterationInput.setText("6");
+        IterationInput.setText("10");
         IterationInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 IterationInputActionPerformed(evt);
@@ -246,16 +247,26 @@ public class Main extends javax.swing.JFrame {
         CreateSwarm();
         //  Map<String, Map<Double, Double>> particleProgress = new HashMap<String, Map<Double,Double>>();
         //iterations to get best solution.
-        for (int t = 1; t <= iterations; t++) {
-            System.out.println("-------------------------------------Iteration :" + t + "-------------------------------------\n");
+        HashMap<Double, Map<Double, Double>> particles = new HashMap<Double, Map<Double, Double>>();
+        for (int num = 1; num <= iterations; num++) {
+            System.out.println("-------------------------------------Iteration :" + num + "-------------------------------------\n");
             swarm.calculatebestSolution();
+            swarm.getParticleProgress(num, particles);
             //swarm.printIterationResults(t, particleProgress);			
         }
         //swarm.getParticleProgress();
-        LineChart chart = new LineChart("Particles", swarm.getParticleProgress());
+        LineChart chart = new LineChart("Particles", particles);
         chart.pack();
         RefineryUtilities.centerFrameOnScreen(chart);
         chart.setVisible(true);
+        
+//        BarChart_AWT barChart = new BarChart_AWT("Chart",
+//                "Particle's Gbest through iterations?", particles);
+//        barChart.pack();
+//        RefineryUtilities.centerFrameOnScreen(barChart);
+//        barChart.setVisible(true);
+
+        System.out.println("The most efficient route is : " + Arrays.toString(swarm.getBestRoute()));
 
     }//GEN-LAST:event_jButton1ActionPerformed
 

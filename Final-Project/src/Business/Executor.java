@@ -31,7 +31,7 @@ public class Executor extends Thread {
     public void run() {
         synchronized (p) {
             // System.err.println("For Particle :" + p.name);
-            System.out.println("For particle :" + p.name);;
+            System.err.println("For particle :" + p.name);;
          //   System.err.println(Thread.currentThread().getName());
             findNewVelocity(p);
             findNewPosition(p);

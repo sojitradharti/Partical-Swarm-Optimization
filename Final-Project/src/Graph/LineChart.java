@@ -25,7 +25,7 @@ import org.jfree.ui.ApplicationFrame;
  */
 public class LineChart extends ApplicationFrame {
 
-    public LineChart(final String title, Map<String, Map<Double, Double>> particles) {
+    public LineChart(final String title, Map<Double, Map<Double, Double>> particles) {
 
         super(title);
 
@@ -37,11 +37,11 @@ public class LineChart extends ApplicationFrame {
 
     }
 
-    private XYDataset createDataset(Map<String, Map<Double, Double>> particles) {
+    private XYDataset createDataset(Map<Double, Map<Double, Double>> particles) {
 
         XYSeriesCollection dataset = new XYSeriesCollection();
 
-        for (Map.Entry<String, Map<Double, Double>> entry : particles.entrySet()) {
+        for (Map.Entry<Double, Map<Double, Double>> entry : particles.entrySet()) {
 		    //System.out.println(entry.getKey()+" -> "+entry.getValue());		    
 
             XYSeries series = new XYSeries(entry.getKey());
@@ -72,9 +72,9 @@ public class LineChart extends ApplicationFrame {
 
         // get a reference to the plot for further customization...
         final XYPlot plot = chart.getXYPlot();
-        plot.setBackgroundPaint(Color.lightGray);
-        plot.setDomainGridlinePaint(Color.white);
-        plot.setRangeGridlinePaint(Color.white);
+//        plot.setBackgroundPaint(Color.lightGray);
+//        plot.setDomainGridlinePaint(Color.white);
+//        plot.setRangeGridlinePaint(Color.white);
 
         final XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
         plot.setRenderer(renderer);

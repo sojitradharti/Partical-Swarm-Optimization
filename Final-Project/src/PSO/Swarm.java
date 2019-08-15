@@ -12,7 +12,10 @@ import Business.Location;
 import Business.ParticleModel;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -86,22 +89,49 @@ public class Swarm {
 
     }
 
-    public HashMap<String, Map<Double, Double>> getParticleProgress() {
-        HashMap<String, Map<Double, Double>> particles = new HashMap<String, Map<Double, Double>>();
-        int num = 1;
-        int count = 0;
+    public int[] getBestRoute() {
+        int bestRoute[] = new int[gBestVelocity.length];
+        Map<Double, List<Integer>> frequency = new HashMap<>();
+
+        for (int i = 0; i < gBestRoute.size(); i++) {
+            if (frequency.get(gBestRoute.get(i)) == null) {
+                frequency.put(gBestRoute.get(i), new ArrayList<Integer>());
+            }
+            frequency.get(gBestRoute.get(i)).add(i);
+        }
+
+        Collections.sort(gBestRoute);
+
+        for (int i = 0; i < bestRoute.length; i++) {
+            if (frequency.get(gBestRoute.get(i)).size() > 1) {
+                // find the lowest velocity and add that first				
+                int num = i;
+                for (int k = 0; k < frequency.get(gBestRoute.get(num)).size(); k++) {
+                    bestRoute[i] = frequency.get(gBestRoute.get(num)).get(k) + 1;
+                    i++;
+                }
+
+            } else {
+                bestRoute[i] = frequency.get(gBestRoute.get(i)).get(0) + 1;
+            }
+        }
+        return bestRoute;
+    }
+
+    public void getParticleProgress(int num, Map<Double, Map<Double, Double>> particles) {
+
+        double count = 1;
         for (Particle p : parModel.getArraySalesperson()) {
-            if (particles.get("p" + num) == null) {
-                particles.put("p" + num, new HashMap<Double, Double>());
+            if (particles.get(count) == null) {
+                particles.put(count, new HashMap<Double, Double>());
             }
 
-            particles.get("p" + num).put((double) count, (double) p.getpBestValue());
-            //    System.out.print((double)p.getpBestValue + "\t\t");
-            //  System.out.println(p.xSolution.toString());
-            //  System.out.println(p.pVelocity.toString());
-            num++;
+            particles.get(count).put((double) num, p.pBestValue);
+            System.out.print(p.pFitnessValue + "\t" + p.pBestValue + "\t\t");
             count++;
         }
-        return particles;
+        System.out.println(gFitnessValue);
+        System.out.println(particles);
     }
 }
+
