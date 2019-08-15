@@ -11,6 +11,7 @@ import Business.ParticleModel;
 import Graph.LineChart;
 import PSO.Particle;
 import PSO.Swarm;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -84,11 +85,11 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        locationinput.setText("20");
+        locationinput.setText("12");
 
         jLabel2.setText("Max Iterations :");
 
-        IterationInput.setText("15");
+        IterationInput.setText("10");
         IterationInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 IterationInputActionPerformed(evt);
@@ -246,7 +247,7 @@ public class Main extends javax.swing.JFrame {
         CreateSwarm();
         //  Map<String, Map<Double, Double>> particleProgress = new HashMap<String, Map<Double,Double>>();
         //iterations to get best solution.
-         HashMap<String, Map<Double, Double>> particles = new HashMap<String, Map<Double, Double>>();
+        HashMap<Double, Map<Double, Double>> particles = new HashMap<Double, Map<Double, Double>>();
         for (int num = 1; num <= iterations; num++) {
             System.out.println("-------------------------------------Iteration :" + num + "-------------------------------------\n");
             swarm.calculatebestSolution();
@@ -258,6 +259,14 @@ public class Main extends javax.swing.JFrame {
         chart.pack();
         RefineryUtilities.centerFrameOnScreen(chart);
         chart.setVisible(true);
+        
+//        BarChart_AWT barChart = new BarChart_AWT("Chart",
+//                "Particle's Gbest through iterations?", particles);
+//        barChart.pack();
+//        RefineryUtilities.centerFrameOnScreen(barChart);
+//        barChart.setVisible(true);
+
+        System.out.println("The most efficient route is : " + Arrays.toString(swarm.getBestRoute()));
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
