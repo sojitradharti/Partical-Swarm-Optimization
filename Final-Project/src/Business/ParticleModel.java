@@ -32,7 +32,7 @@ public class ParticleModel {
 
     public int generateRandomCapacity(int cap) {
         Random ran = new Random();
-        int k = ran.nextInt(cap);
+        int k = ran.nextInt(cap)+1;
         return k;
     }
 
