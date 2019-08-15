@@ -135,18 +135,18 @@ public class Swarm {
         System.out.println(particles);
     }
 
-    public Map<String, List<Integer>> CountBestRouteTrips(int[] bestRoute) {
+    public Map<String, List<Integer>> CountBestRouteRounds(int[] bestRoute) {
         Map<String, List<Integer>> model = new HashMap<String, List<Integer>>();
                 System.out.println(Arrays.toString(bestRoute));
 		List<Integer> route;
-		int tripsCount =0;
+		int roundCount =0;
 		int totalDistance = 0;
                
 		for(int v=0; v< parModel.getArraySalesperson().length; v++){
                     
 			route = new ArrayList<Integer>();
 			
-			tripsCount=0;
+			roundCount=0;
 			//totalDistance=0;
 			int availableCapacity = parModel.getArraySalesperson()[v].maxCapacity; 
                         
@@ -157,7 +157,7 @@ public class Swarm {
                              
                                while(custDemand > 0)
                                   {
-                                      tripsCount++;
+                                      roundCount++;
                                       route.add(0);
                                       //totalDistance+= graph.getAdjacency_matrix()[route.get(route.indexOf(bestRoute[i])-1)][bestRoute[i]];
                                       custDemand = custDemand - availableCapacity ;
@@ -165,7 +165,7 @@ public class Swarm {
                                      
                                   }                              
 			}
-                          model.put("vehicleName : " + parModel.getArraySalesperson()[v].name + "VehicleCap:"+ parModel.getArraySalesperson()[v].maxCapacity +",Trips:"+tripsCount+",TotalDistance:"+totalDistance, route);
+                          model.put("vehicleName : " + parModel.getArraySalesperson()[v].name + "VehicleCap:"+ parModel.getArraySalesperson()[v].maxCapacity +",Rounds:"+roundCount+",TotalDistance:"+totalDistance, route);
 			route.add(0);			
 			
 		}

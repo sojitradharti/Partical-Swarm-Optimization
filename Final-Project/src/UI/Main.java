@@ -288,7 +288,7 @@ public class Main extends javax.swing.JFrame {
        int[] BestRoute = swarm.getBestRoute();
         System.out.println("The most efficient route is : " + Arrays.toString(BestRoute));
         AnimationUI gui = new AnimationUI();
-        Map<String, List<Integer>> ResultModel =  swarm.CountBestRouteTrips(BestRoute);
+        Map<String, List<Integer>> ResultModel =  swarm.CountBestRouteRounds(BestRoute);
        for (Map.Entry<String, List<Integer>> entry : ResultModel.entrySet()) {
         		    System.out.println(entry.getKey()+" : "+entry.getValue());		    
         			// TODO: animation
