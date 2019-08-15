@@ -260,11 +260,11 @@ public class Main extends javax.swing.JFrame {
         RefineryUtilities.centerFrameOnScreen(chart);
         chart.setVisible(true);
         
-//        BarChart_AWT barChart = new BarChart_AWT("Chart",
-//                "Particle's Gbest through iterations?", particles);
-//        barChart.pack();
-//        RefineryUtilities.centerFrameOnScreen(barChart);
-//        barChart.setVisible(true);
+        BarChart barChart = new BarChart("Chart",
+                "Particle's Gbest through iterations?", particles);
+        barChart.pack();
+        RefineryUtilities.centerFrameOnScreen(barChart);
+        barChart.setVisible(true);
 
         System.out.println("The most efficient route is : " + Arrays.toString(swarm.getBestRoute()));
 
