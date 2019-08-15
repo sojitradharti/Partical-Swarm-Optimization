@@ -41,8 +41,7 @@ public class LineChart extends ApplicationFrame {
 
         XYSeriesCollection dataset = new XYSeriesCollection();
 
-        for (Map.Entry<Double, Map<Double, Double>> entry : particles.entrySet()) {
-		    //System.out.println(entry.getKey()+" -> "+entry.getValue());		    
+        for (Map.Entry<Double, Map<Double, Double>> entry : particles.entrySet()) {		    
 
             XYSeries series = new XYSeries(entry.getKey());
             for (Map.Entry<Double, Double> e : entry.getValue().entrySet()) {

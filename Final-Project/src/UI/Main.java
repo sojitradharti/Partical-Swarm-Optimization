@@ -274,19 +274,30 @@ public class Main extends javax.swing.JFrame {
             swarm.TrackResultOfParticle(num, particles);
            		
         }
-     
+         int[] BestRoute = swarm.getBestRoute();
+       System.out.println("The most efficient route is : " + Arrays.toString(BestRoute));
+
+          
         LineChart chart = new LineChart("Particles", particles);
         chart.pack();
         RefineryUtilities.centerFrameOnScreen(chart);
         chart.setVisible(true);
+        
+          BarChart barChart = new BarChart("Chart",
+                "Particle's Gbest through iterations?", particles);
+        barChart.pack();
+        RefineryUtilities.centerFrameOnScreen(barChart);
+        barChart.setVisible(true);
+
+           
         
 //        BarChart_AWT barChart = new BarChart_AWT("Chart",
 //                "Particle's Gbest through iterations?", particles);
 //        barChart.pack();
 //        RefineryUtilities.centerFrameOnScreen(barChart);
 //        barChart.setVisible(true);
-       int[] BestRoute = swarm.getBestRoute();
-        System.out.println("The most efficient route is : " + Arrays.toString(BestRoute));
+      
+      
         AnimationUI gui = new AnimationUI();
         Map<String, List<Integer>> ResultModel =  swarm.CountBestRouteRounds(BestRoute);
        for (Map.Entry<String, List<Integer>> entry : ResultModel.entrySet()) {
@@ -295,6 +306,9 @@ public class Main extends javax.swing.JFrame {
         		}
         //System.out.print("");
     }//GEN-LAST:event_btnRunActionPerformed
+
+                               
+
 
     private void maxPacketInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maxPacketInputActionPerformed
         // TODO add your handling code here:
