@@ -5,19 +5,21 @@
  */
 package Business;
 
+import static UI.Main.maxLocationOrders;
+
 /**
  *
  * @author Kamini
  */
-public class destination {
+public class LocationModel {
 
-    Location[] Locations;
+    public Location[] Locations;
 
-    destination(int destinationSize) {
-        Locations = new Location[destinationSize];
-        for (int i = 0; i < destinationSize; i++) {
-          //  Location l = new Location(i);
-          //  Locations[i] = l;
+    public LocationModel(int locsize,int maxLocationDemand) {
+        Locations = new Location[locsize];
+        for (int i = 0; i < locsize; i++) {
+            Location l = new Location(i,maxLocationDemand);
+           Locations[i] = l;
         }
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

@@ -29,7 +29,7 @@ public class Executor extends Thread {
 
     @Override
     public void run() {
-        synchronized (p) {
+       
             // System.err.println("For Particle :" + p.name);
             System.err.println("For particle :" + p.name);;
          //   System.err.println(Thread.currentThread().getName());
@@ -48,7 +48,7 @@ public class Executor extends Thread {
             System.out.println("p Fitness " + p.pFitnessValue + "  PBestValue " + p.pBestValue);
             System.out.println("P Best Velocity " + Arrays.toString(p.pBestVelocity));
             // Thread.currentThread().interrupt();
-        }
+        
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

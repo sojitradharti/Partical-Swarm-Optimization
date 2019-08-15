@@ -7,7 +7,7 @@ package PSO;
 
 import Business.Executor;
 import Business.Graph;
-import Business.Location;
+import Business.LocationModel;
 
 import Business.ParticleModel;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-//http://gardeux-vincent.eu/These/Papiers/Bibli2/Schutte03.pdf
+
 /**
  *
  * @author sojit
@@ -34,11 +34,13 @@ public class Swarm {
 
     private final ParticleModel parModel;
     public Graph graph;
+    public LocationModel loc;
 
-    public Swarm(ParticleModel db, Location loc, int locationCount, Graph graph) {
+    public Swarm(ParticleModel db, LocationModel loc, int locationCount, Graph graph) {
         //find global best	
         this.parModel = db;
         this.graph = graph;
+        this.loc = loc;
         gBestRoute = new ArrayList();
         gBestVelocity = new double[locationCount];
         gFitnessValue = Double.MAX_VALUE;
@@ -117,7 +119,7 @@ public class Swarm {
         return bestRoute;
     }
 
-    public void getParticleProgress(int num, Map<Double, Map<Double, Double>> particles) {
+    public void TrackResultOfParticle(int num, Map<Double, Map<Double, Double>> particles) {
 
         double count = 1;
         for (Particle p : parModel.getArraySalesperson()) {
@@ -132,5 +134,44 @@ public class Swarm {
         System.out.println(gFitnessValue);
         System.out.println(particles);
     }
+
+    public Map<String, List<Integer>> CountBestRouteRounds(int[] bestRoute) {
+        Map<String, List<Integer>> model = new HashMap<String, List<Integer>>();
+                System.out.println(Arrays.toString(bestRoute));
+		List<Integer> route;
+		int roundCount =0;
+		int totalDistance = 0;
+               
+		for(int v=0; v< parModel.getArraySalesperson().length; v++){
+                    
+			route = new ArrayList<Integer>();
+			
+			roundCount=0;
+			//totalDistance=0;
+			int availableCapacity = parModel.getArraySalesperson()[v].maxCapacity; 
+                        
+			for(int i=0; i<bestRoute.length; i++){
+                           //  System.out.println("i :" + i);
+                          int custDemand = loc.Locations[bestRoute[i]-1].maxDemand;
+                             System.out.println("Demand :"+ loc.Locations[bestRoute[i]-1].name+ " : " +custDemand);
+                             
+                               while(custDemand > 0)
+                                  {
+                                      roundCount++;
+                                      route.add(0);
+                                      //totalDistance+= graph.getAdjacency_matrix()[route.get(route.indexOf(bestRoute[i])-1)][bestRoute[i]];
+                                      custDemand = custDemand - availableCapacity ;
+                                      route.add(bestRoute[i]);
+                                     
+                                  }                              
+			}
+                          model.put("vehicleName : " + parModel.getArraySalesperson()[v].name + "VehicleCap:"+ parModel.getArraySalesperson()[v].maxCapacity +",Rounds:"+roundCount+",TotalDistance:"+totalDistance, route);
+			route.add(0);			
+			
+		}
+		return model;
+    }
+
+
 }
 
