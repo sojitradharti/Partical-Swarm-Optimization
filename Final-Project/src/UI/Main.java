@@ -254,9 +254,9 @@ public class Main extends javax.swing.JFrame {
         //  print(pm.arrParticle);
         // print graph adjacency matrix
         System.out.println("The adjacency matrix for the given graph is: ");
-        for (int i = 0; i < noOfLocations; i++) {
+        for (int i = 0; i <= noOfLocations; i++) {
 
-            for (int j = 0; j < noOfLocations; j++) {
+            for (int j = 0; j <= noOfLocations; j++) {
                 System.out.print(graph.getEdge(i, j) + "\t");
             }
             System.out.println();
@@ -351,8 +351,8 @@ public class Main extends javax.swing.JFrame {
 
     private static void CreateGraph() {
         Random rand = new Random();
-        for (int i = 0; i < noOfLocations; i++) {
-            for (int j = i; j < noOfLocations; j++) {
+        for (int i = 0; i <=noOfLocations; i++) {
+            for (int j = i; j <=noOfLocations; j++) {
                 if (i == j) {
                     graph.addEdge(i, j, 0);
                 } else {
