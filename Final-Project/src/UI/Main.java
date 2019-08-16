@@ -5,6 +5,7 @@
  */
 package UI;
 
+import Graph.BarChart;
 import Animation.AnimationUI;
 import Business.Graph;
 import Business.Location;
@@ -18,9 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.JOptionPane;
 import org.jfree.ui.RefineryUtilities;
 
 /**
@@ -33,19 +32,17 @@ public class Main extends javax.swing.JFrame {
     public static int noOfLocations;
     public static int maxLocationOrders;
     public static int maxSalesmanCapacity;
-  
 
     private static int getRandom() {
         Random rand = new Random();
-      int val =   rand.nextInt(noOfLocations);
-        if(val == 0)
-        {
-            val = val+1;
+        int val = rand.nextInt(noOfLocations);
+        if (val == 0) {
+            val = val + 1;
         }
         return val;
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-   
+
     int target;
     static Graph graph;
     static ParticleModel pm;
@@ -247,12 +244,11 @@ public class Main extends javax.swing.JFrame {
 //        if (!regEx.matcher(particlesInput.getText()).matches() &&!regEx.matcher(maxPacketInput.getText()).matches() && !regEx.matcher(maxLocDemand.getText()).matches() && !regEx.matcher(locationinput.getText()).matches() &&!regEx.matcher(IterationInput.getText()).matches() && ! regEx.matcher(targetInput.getText()).matches()) {
 //            JOptionPane.showMessageDialog(null, "Please enter digits only");
 //        }
-        
-          
+
         graph = new Graph(noOfLocations);
         CreateGraph();
         pm = new ParticleModel(ParticleCount, graph, maxSalesmanCapacity, noOfLocations);
-        locmodel = new LocationModel(noOfLocations,maxLocationOrders);
+        locmodel = new LocationModel(noOfLocations, maxLocationOrders);
         //loc = new Location(noOfLocations, maxLocationDemand);
 
         print(pm.arrParticle);
@@ -267,57 +263,43 @@ public class Main extends javax.swing.JFrame {
         }
 
         CreateSwarm();
-        
+
         HashMap<Double, Map<Double, Double>> particles = new HashMap<Double, Map<Double, Double>>();
         for (int num = 1; num <= iterations; num++) {
             System.out.println("-----------------------------Iteration :" + num + "------------------------------\n");
-            if(swarm.calculatebestSolution(target))
-            {
-                swarm.trackResultOfParticle(num, particles);                
-                System.out.println("Target reached at iteration : " + num );
+            if (swarm.calculatebestSolution(target)) {
+                swarm.trackResultOfParticle(num, particles);
+                System.out.println("Target reached at iteration : " + num);
                 break;
-            }
-            else
-            {
+            } else {
                 swarm.trackResultOfParticle(num, particles);
             }
-            
-           		
-        }
-         int[] BestRoute = swarm.getBestRoute();
-       System.out.println("The most efficient route is : " + Arrays.toString(BestRoute));
 
-          
-        LineChart chart = new LineChart("Particles", particles);
-        chart.pack();
-        RefineryUtilities.centerFrameOnScreen(chart);
-        chart.setVisible(true);
-        
-          BarChart barChart = new BarChart("Chart",
+        }
+        int[] BestRoute = swarm.getBestRoute();
+        System.out.println("The most efficient route is : " + Arrays.toString(BestRoute));
+
+        //Bar chart display code
+        BarChart barChart = new BarChart("Chart",
                 "Particle's Gbest through iterations?", particles);
         barChart.pack();
         RefineryUtilities.centerFrameOnScreen(barChart);
         barChart.setVisible(true);
-
-           
         
-//        BarChart_AWT barChart = new BarChart_AWT("Chart",
-//                "Particle's Gbest through iterations?", particles);
-//        barChart.pack();
-//        RefineryUtilities.centerFrameOnScreen(barChart);
-//        barChart.setVisible(true);
-      
-      
+        //Line chart display code
+        LineChart chart = new LineChart("Particles", particles);
+        chart.pack();
+        RefineryUtilities.centerFrameOnScreen(chart);
+        chart.setVisible(true);
+ 
         AnimationUI gui = new AnimationUI();
-        Map<String, List<Integer>> ResultModel =  swarm.CountBestRouteRounds(BestRoute);
-       for (Map.Entry<String, List<Integer>> entry : ResultModel.entrySet()) {
-        		    System.out.println(entry.getKey()+" : "+entry.getValue());		    
-        			// TODO: animation
-        		}
+        Map<String, List<Integer>> ResultModel = swarm.CountBestRouteRounds(BestRoute);
+        for (Map.Entry<String, List<Integer>> entry : ResultModel.entrySet()) {
+            System.out.println(entry.getKey() + " : " + entry.getValue());
+            // TODO: animation
+        }
         //System.out.print("");
     }//GEN-LAST:event_btnRunActionPerformed
-
-                               
 
 
     private void maxPacketInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maxPacketInputActionPerformed
