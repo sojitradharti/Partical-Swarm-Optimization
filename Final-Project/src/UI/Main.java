@@ -7,6 +7,7 @@ package UI;
 
 import Graph.BarChart;
 import Animation.AnimationUI;
+import Animation.GraphUI;
 import Business.Graph;
 import Business.Location;
 import Business.LocationModel;
@@ -287,18 +288,17 @@ public class Main extends javax.swing.JFrame {
         barChart.setVisible(true);
 
         //Line chart display code
-        LineChart chart = new LineChart("Particles", particles);
-        chart.pack();
-        RefineryUtilities.centerFrameOnScreen(chart);
-        chart.setVisible(true);
+//        LineChart chart = new LineChart("Particles", particles);
+//        chart.pack();
+//        RefineryUtilities.centerFrameOnScreen(chart);
+//        chart.setVisible(true);
 
-        AnimationUI gui = new AnimationUI();
-        Map<String, List<Integer>> ResultModel = swarm.CountBestRouteRounds(BestRoute);
-        for (Map.Entry<String, List<Integer>> entry : ResultModel.entrySet()) {
-            System.out.println(entry.getKey() + " : " + entry.getValue());
-            // TODO: animation
-        }
+           //  Map<String, List<Integer>> ResultModel =  swarm.CountBestRouteRounds(BestRoute);
+        
+
         //System.out.print("");
+        
+       
     }//GEN-LAST:event_btnRunActionPerformed
 
 
@@ -351,8 +351,8 @@ public class Main extends javax.swing.JFrame {
 
     private static void CreateGraph() {
         Random rand = new Random();
-        for (int i = 0; i <=noOfLocations; i++) {
-            for (int j = i; j <=noOfLocations; j++) {
+        for (int i = 0; i <= noOfLocations; i++) {
+            for (int j = i; j <= noOfLocations; j++) {
                 if (i == j) {
                     graph.addEdge(i, j, 0);
                 } else {

@@ -1,21 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Animation;
 
 import java.util.List;
-import org.graphstream.graph.Graph;
-import org.graphstream.graph.Node;
-import org.graphstream.graph.implementations.MultiGraph;
 
-/**
- *
- * @author sojit
- */
-public class AnimationUI {
-    private String styleSheet =
+import org.graphstream.graph.*;
+import org.graphstream.graph.implementations.*;
+
+
+public class GraphUI {
+	
+   private String styleSheet =
 	        	"node { fill-color: blue; text-color: white; size: 40px; text-size: 20px;} "+
 	            "node#0 { shape: box; fill-color: orange;  } "+
 	        	"edge.marked {fill-color: red;}"+		
@@ -50,8 +43,8 @@ public class AnimationUI {
 		int i=0;
 		for(; i< graph.getEdgeCount(); i++){
 			graph.getEdge(i).addAttribute("ui.class", "marked");
-			if(graph.getEdge(i).getNode1().getId().equals("0"))
-				graph.getEdge(i).addAttribute("ui.label", "Trip:"+t++);
+//			if(graph.getEdge(i).getNode1().getId().equals("0"))
+//				graph.getEdge(i).addAttribute("ui.label", "Trip:"+t++);
 			sleep();
 		}
 		graph.getEdge(i-1).addAttribute("ui.label", graph.getId());
@@ -60,4 +53,6 @@ public class AnimationUI {
 	private void sleep() {
         try { Thread.sleep(1500); } catch (Exception e) {}
     }
+	
+	
 }
