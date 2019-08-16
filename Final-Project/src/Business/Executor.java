@@ -29,26 +29,26 @@ public class Executor extends Thread {
 
     @Override
     public void run() {
-       
-            // System.err.println("For Particle :" + p.name);
-            System.err.println("For particle :" + p.name);;
-         //   System.err.println(Thread.currentThread().getName());
-            findNewVelocity(p);
-            findNewPosition(p);
-            // update the fitness value of the particles
-            p.pFitnessValue = generateFitnessValue(p.particleRoute);
 
-            // update pBest of the particle
-            if (p.pFitnessValue < p.pBestValue) {
-                p.personalBestRoute = p.particleRoute;
-                p.pBestValue = p.pFitnessValue;
-                p.pBestVelocity = p.pVelocity;
-            }
-            System.out.println("PersonalBestRoute " + p.personalBestRoute);
-            System.out.println("p Fitness " + p.pFitnessValue + "  PBestValue " + p.pBestValue);
-            System.out.println("P Best Velocity " + Arrays.toString(p.pBestVelocity));
+        // System.err.println("For Particle :" + p.name);
+        System.err.println("For particle :" + p.name);;
+        //   System.err.println(Thread.currentThread().getName());
+        findNewVelocity(p);
+        findNewPosition(p);
+        // update the fitness value of the particles
+        p.pFitnessValue = generateFitnessValue(p.particleRoute);
+
+        // update pBest of the particle
+        if (p.pFitnessValue < p.pBestValue) {
+            p.pBestRoute = p.particleRoute;
+            p.pBestValue = p.pFitnessValue;
+            p.pBestVelocity = p.pVelocity;
+        }
+        System.out.println("PersonalBestRoute " + p.pBestRoute);
+        System.out.println("particle " + p.name + " p Fitness " + p.pFitnessValue + "  p BestValue " + p.pBestValue);
+        System.out.println("P Best Velocity " + Arrays.toString(p.pBestVelocity));
             // Thread.currentThread().interrupt();
-        
+
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -60,38 +60,34 @@ public class Executor extends Thread {
         double[] newVelocity = new double[p.pVelocity.length];
         for (int i = 0; i < newVelocity.length; i++) {
             double inertia = w * p.pVelocity[i];
-            double cognitiveComp = c1 * (p.personalBestRoute.get(i) - p.particleRoute.get(i));
+            double cognitiveComp = c1 * (p.pBestRoute.get(i) - p.particleRoute.get(i));
             double socialComp = c2 * (gBestRoute.get(i) - p.particleRoute.get(i));
             newVelocity[i] = inertia + cognitiveComp + socialComp;
-            // Math.round(a * 100.0) / 100.0;
         }
         p.pVelocity = newVelocity;
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     private double generateFitnessValue(ArrayList<Double> particleRoute) {
-       
+
         double initial = 0;
         double sum = 0;
 
         //return the value of objective function
-        for (int i = 0; i < particleRoute.size()-1; i++) {
+        for (int i = 0; i < particleRoute.size() - 1; i++) {
             double v = particleRoute.get(i);
             // System.out.println("initial :" + initial + " v :" +v );
-            try
-        {
-            sum += graph.getAdjacency_matrix()[(int)initial][(int)v];
-             initial = v;
+            try {
+                sum += graph.getAdjacency_matrix()[(int) initial][(int) v];
+                initial = v;
+            } catch (ArrayIndexOutOfBoundsException exception) {
+                System.err.println("initial " + initial + "v :" + v);
             }
-        catch(ArrayIndexOutOfBoundsException exception)
-        {
-             System.err.println("initial " + initial + "v :" + v);
+
         }
-           
-        }
-        sum += graph.getAdjacency_matrix()[(int)initial][0];
+        sum += graph.getAdjacency_matrix()[(int) initial][0];
         return sum;
-        
+
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -35,7 +35,7 @@ public class Main extends javax.swing.JFrame {
 
     private static int getRandom() {
         Random rand = new Random();
-        int val = rand.nextInt(noOfLocations);
+        int val = rand.nextInt(80);
         if (val == 0) {
             val = val + 1;
         }
@@ -94,14 +94,14 @@ public class Main extends javax.swing.JFrame {
 
         locationCount.setText("Number of locations : ");
 
-        particlesInput.setText("2");
+        particlesInput.setText("5");
         particlesInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 particlesInputActionPerformed(evt);
             }
         });
 
-        locationinput.setText("5");
+        locationinput.setText("10");
 
         jLabel2.setText("Max Iterations :");
 
@@ -251,7 +251,7 @@ public class Main extends javax.swing.JFrame {
         locmodel = new LocationModel(noOfLocations, maxLocationOrders);
         //loc = new Location(noOfLocations, maxLocationDemand);
 
-        print(pm.arrParticle);
+        //  print(pm.arrParticle);
         // print graph adjacency matrix
         System.out.println("The adjacency matrix for the given graph is: ");
         for (int i = 0; i < noOfLocations; i++) {
@@ -281,17 +281,17 @@ public class Main extends javax.swing.JFrame {
 
         //Bar chart display code
         BarChart barChart = new BarChart("Chart",
-                "Particle's Gbest through iterations?", particles);
+                "Particle's Gbest through iterations", particles);
         barChart.pack();
         RefineryUtilities.centerFrameOnScreen(barChart);
         barChart.setVisible(true);
-        
+
         //Line chart display code
         LineChart chart = new LineChart("Particles", particles);
         chart.pack();
         RefineryUtilities.centerFrameOnScreen(chart);
         chart.setVisible(true);
- 
+
         AnimationUI gui = new AnimationUI();
         Map<String, List<Integer>> ResultModel = swarm.CountBestRouteRounds(BestRoute);
         for (Map.Entry<String, List<Integer>> entry : ResultModel.entrySet()) {

@@ -19,7 +19,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
  *
  * @author sojit
@@ -56,14 +55,14 @@ public class Swarm {
                 gBestVelocity = par.pBestVelocity;
             }
         }
-       
+
         System.out.println("---------------Global Solution---------------");
         System.out.println("global FitnessValue  " + gFitnessValue);
         System.out.println("global BestRoute " + gBestRoute);
         System.out.println("global BestVelocity" + Arrays.toString(gBestVelocity));
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         System.out.println("\n");
-        
+
     }
 
     public boolean calculatebestSolution(int target) {
@@ -82,7 +81,7 @@ public class Swarm {
         }
         //update all global variables after each paricle updated
         findGlobalBest(parModel.getArraySalesperson());
-        
+
         try {
             Thread.sleep(2000);
 
@@ -90,13 +89,10 @@ public class Swarm {
         } catch (InterruptedException ex) {
             Logger.getLogger(Swarm.class.getName()).log(Level.SEVERE, null, ex);
         }
-       if(gFitnessValue <=target)
-        {
+        if (gFitnessValue <= target) {
             return true;
-        }
-        else
-        {
-        return false;
+        } else {
+            return false;
         }
     }
 
@@ -114,8 +110,7 @@ public class Swarm {
         Collections.sort(gBestRoute);
 
         for (int i = 0; i < bestRoute.length; i++) {
-            if (frequency.get(gBestRoute.get(i)).size() > 1) {
-                // find the lowest velocity and add that first				
+            if (frequency.get(gBestRoute.get(i)).size() > 1) {			
                 int num = i;
                 for (int k = 0; k < frequency.get(gBestRoute.get(num)).size(); k++) {
                     bestRoute[i] = frequency.get(gBestRoute.get(num)).get(k) + 1;
@@ -130,58 +125,39 @@ public class Swarm {
     }
 
     public void trackResultOfParticle(int num, Map<Double, Map<Double, Double>> particles) {
-
         double count = 1;
         for (Particle p : parModel.getArraySalesperson()) {
             if (particles.get(count) == null) {
-                particles.put(count, new HashMap<Double, Double>());
+                particles.put(count, new HashMap<>());
             }
-
             particles.get(count).put((double) num, p.pBestValue);
-            System.out.print(p.pFitnessValue + "\t" + p.pBestValue + "\t\t");
             count++;
         }
-        System.out.println(gFitnessValue);
-        System.out.println(particles);
     }
 
     public Map<String, List<Integer>> CountBestRouteRounds(int[] bestRoute) {
-        Map<String, List<Integer>> model = new HashMap<String, List<Integer>>();
-                System.out.println(Arrays.toString(bestRoute));
-		List<Integer> route;
-		int roundCount =0;
-		int totalDistance = 0;
-               
-		for(int v=0; v< parModel.getArraySalesperson().length; v++){
-                    
-			route = new ArrayList<Integer>();
-			
-			roundCount=0;
-			//totalDistance=0;
-			int availableCapacity = parModel.getArraySalesperson()[v].maxCapacity; 
-                        
-			for(int i=0; i<bestRoute.length; i++){
-                           //  System.out.println("i :" + i);
-                          int custDemand = loc.Locations[bestRoute[i]-1].maxDemand;
-                             System.out.println("Demand :"+ loc.Locations[bestRoute[i]-1].name+ " : " +custDemand);
-                             
-                               while(custDemand > 0)
-                                  {
-                                      roundCount++;
-                                      route.add(0);
-                                      //totalDistance+= graph.getAdjacency_matrix()[route.get(route.indexOf(bestRoute[i])-1)][bestRoute[i]];
-                                      custDemand = custDemand - availableCapacity ;
-                                      route.add(bestRoute[i]);
-                                     
-                                  }                              
-			}
-                          model.put("vehicleName : " + parModel.getArraySalesperson()[v].name + "VehicleCap:"+ parModel.getArraySalesperson()[v].maxCapacity +",Rounds:"+roundCount+",TotalDistance:"+totalDistance, route);
-			route.add(0);			
-			
-		}
-		return model;
+        Map<String, List<Integer>> model = new HashMap<>();
+        List<Integer> route;
+        int roundsCount = 0;
+        int totalDistance = 0;
+
+        for (int v = 0; v < parModel.getArraySalesperson().length; v++) {
+            route = new ArrayList<>();
+            roundsCount = 0;
+            int availableCapacity = parModel.getArraySalesperson()[v].maxCapacity;
+            for (int i = 0; i < bestRoute.length; i++) {
+                int locDemand = loc.Locations[bestRoute[i] - 1].maxDemand;
+                while (locDemand > 0) {
+                    roundsCount++;
+                    route.add(0);
+                    locDemand = locDemand - availableCapacity;
+                    route.add(bestRoute[i]);
+                }
+            }
+            model.put("Salesperson " + parModel.getArraySalesperson()[v].name + " Capacity : " + parModel.getArraySalesperson()[v].maxCapacity + ", Total Rounds : " + roundsCount + ", TotalDistance:" + totalDistance + "  ,Route followed" , route);
+            route.add(0);
+        }
+        return model;
     }
 
-
 }
-
