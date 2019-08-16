@@ -141,7 +141,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="particlesInput">
           <Properties>
-            <Property name="text" type="java.lang.String" value="2"/>
+            <Property name="text" type="java.lang.String" value="5"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="particlesInputActionPerformed"/>
@@ -149,7 +149,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="locationinput">
           <Properties>
-            <Property name="text" type="java.lang.String" value="5"/>
+            <Property name="text" type="java.lang.String" value="10"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">

@@ -14,7 +14,7 @@ import java.util.Random;
 public class Location {
 
     public String name;
-   public  int maxDemand;
+    public int maxDemand;
 
     public int getMaxDemand() {
         return maxDemand;
@@ -28,7 +28,7 @@ public class Location {
         this.maxDemand = getRandomMaxDemand(maxDemand);
         setName(name);
         setMaxDemand(this.maxDemand);
-         System.out.println("LocationName : " + name + "demand : " + maxDemand);
+        System.out.println("Location " + name + ", Demand : " + this.maxDemand);
     }
 
     public String getName() {
@@ -41,7 +41,7 @@ public class Location {
 
     private int getRandomMaxDemand(int maxDemand) {
         Random ran = new Random();
-        return ran.nextInt(maxDemand)+1;
+        return ran.nextInt(maxDemand) + 1;
     }
 
 }
