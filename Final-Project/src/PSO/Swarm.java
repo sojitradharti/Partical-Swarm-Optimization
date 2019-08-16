@@ -56,15 +56,17 @@ public class Swarm {
                 gBestVelocity = par.pBestVelocity;
             }
         }
+       
         System.out.println("---------------Global Solution---------------");
         System.out.println("global FitnessValue  " + gFitnessValue);
         System.out.println("global BestRoute " + gBestRoute);
         System.out.println("global BestVelocity" + Arrays.toString(gBestVelocity));
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         System.out.println("\n");
+        
     }
 
-    public void calculatebestSolution() {
+    public boolean calculatebestSolution(int target) {
 
         for (Particle p : parModel.getArraySalesperson()) {
             exe = new Executor(p, graph, gBestRoute);
@@ -80,6 +82,7 @@ public class Swarm {
         }
         //update all global variables after each paricle updated
         findGlobalBest(parModel.getArraySalesperson());
+        
         try {
             Thread.sleep(2000);
 
@@ -87,7 +90,14 @@ public class Swarm {
         } catch (InterruptedException ex) {
             Logger.getLogger(Swarm.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+       if(gFitnessValue <=target)
+        {
+            return true;
+        }
+        else
+        {
+        return false;
+        }
     }
 
     public int[] getBestRoute() {
@@ -119,7 +129,7 @@ public class Swarm {
         return bestRoute;
     }
 
-    public void TrackResultOfParticle(int num, Map<Double, Map<Double, Double>> particles) {
+    public void trackResultOfParticle(int num, Map<Double, Map<Double, Double>> particles) {
 
         double count = 1;
         for (Particle p : parModel.getArraySalesperson()) {
