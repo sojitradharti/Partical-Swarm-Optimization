@@ -6,6 +6,7 @@
 package UI;
 
 import Animation.AnimationUI;
+import Animation.GraphUI;
 import Business.Graph;
 import Business.Location;
 import Business.LocationModel;
@@ -37,10 +38,10 @@ public class Main extends javax.swing.JFrame {
 
     private static int getRandom() {
         Random rand = new Random();
-      int val =   rand.nextInt(noOfLocations);
-        if(val == 0)
+      int val =   rand.nextInt(50);
+        if(val < 20)
         {
-            val = val+1;
+            val = val+20;
         }
         return val;
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -258,9 +259,9 @@ public class Main extends javax.swing.JFrame {
         print(pm.arrParticle);
         // print graph adjacency matrix
         System.out.println("The adjacency matrix for the given graph is: ");
-        for (int i = 0; i < noOfLocations; i++) {
+        for (int i = 0; i <= noOfLocations; i++) {
 
-            for (int j = 0; j < noOfLocations; j++) {
+            for (int j = 0; j <= noOfLocations; j++) {
                 System.out.print(graph.getEdge(i, j) + "\t");
             }
             System.out.println();
@@ -308,13 +309,16 @@ public class Main extends javax.swing.JFrame {
 //        barChart.setVisible(true);
       
       
-        AnimationUI gui = new AnimationUI();
-        Map<String, List<Integer>> ResultModel =  swarm.CountBestRouteRounds(BestRoute);
-       for (Map.Entry<String, List<Integer>> entry : ResultModel.entrySet()) {
-        		    System.out.println(entry.getKey()+" : "+entry.getValue());		    
-        			// TODO: animation
-        		}
+        GraphUI gui = new GraphUI();
+//        Map<String, List<Integer>> ResultModel =  swarm.CountBestRouteRounds(BestRoute);
+//       for (Map.Entry<String, List<Integer>> entry : ResultModel.entrySet()) {
+//        		    System.out.println("GraphVehivleCap:15,Trips:6,TotalDistance:339"+" : "+entry.getValue());		    
+//        			// TODO: animation
+//                                gui.displayGraph("Graph"+"VehicleCap:15,Trips:6,TotalDistance:339",entry.getValue());
+//        		}
         //System.out.print("");
+        
+       
     }//GEN-LAST:event_btnRunActionPerformed
 
                                
@@ -369,8 +373,8 @@ public class Main extends javax.swing.JFrame {
 
     private static void CreateGraph() {
         Random rand = new Random();
-        for (int i = 0; i < noOfLocations; i++) {
-            for (int j = i; j < noOfLocations; j++) {
+        for (int i = 0; i <= noOfLocations; i++) {
+            for (int j = i; j <= noOfLocations; j++) {
                 if (i == j) {
                     graph.addEdge(i, j, 0);
                 } else {

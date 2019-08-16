@@ -55,7 +55,7 @@ public class Executor extends Thread {
     // to update velocity in each iteration
     private void findNewVelocity(Particle p) {
         double w = 0.6; //inertia weight
-        double c1 = 0.6;//local best
+        double c1 = 0.06;//local best
         double c2 = 0.1;//global best
         double[] newVelocity = new double[p.pVelocity.length];
         for (int i = 0; i < newVelocity.length; i++) {
@@ -80,7 +80,7 @@ public class Executor extends Thread {
             // System.out.println("initial :" + initial + " v :" +v );
             try
         {
-            sum += graph.getAdjacency_matrix()[(int)initial][(int)v];
+            sum += graph.getAdjacency_matrix()[(int)initial][(int)Math.round(v)];
              initial = v;
             }
         catch(ArrayIndexOutOfBoundsException exception)
@@ -90,6 +90,10 @@ public class Executor extends Thread {
            
         }
         sum += graph.getAdjacency_matrix()[(int)initial][0];
+        if(sum ==0)
+        {
+            System.out.println();
+        }
         return sum;
         
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -97,7 +101,7 @@ public class Executor extends Thread {
 
     // learning function to update route of particle in next iteration
     private void findNewPosition(Particle p) {
-        int value = 0;
+       
         for (int i = 0; i < p.particleRoute.size(); i++) {
             //value = p.particleRoute.get(i) + p.pVelocity[i] > p.particleRoute.size() ? p.particleRoute.size() :p.particleRoute.get(i) + p.pVelocity[i];
             // p.particleRoute.set(i, value);
