@@ -288,17 +288,19 @@ public class Main extends javax.swing.JFrame {
         barChart.setVisible(true);
 
         //Line chart display code
-//        LineChart chart = new LineChart("Particles", particles);
-//        chart.pack();
-//        RefineryUtilities.centerFrameOnScreen(chart);
-//        chart.setVisible(true);
-
-           //  Map<String, List<Integer>> ResultModel =  swarm.CountBestRouteRounds(BestRoute);
-        
+        LineChart chart = new LineChart("Particles", particles);
+        chart.pack();
+        RefineryUtilities.centerFrameOnScreen(chart);
+        chart.setVisible(true);
+        Map<String, List<Integer>> ResultModel = swarm.CountBestRouteRounds(BestRoute);
+        for (Map.Entry<String, List<Integer>> entry : ResultModel.entrySet()) {
+            System.out.println(entry.getKey() + " : " + entry.getValue());
+            // TODO: animation
+        }
+        //  Map<String, List<Integer>> ResultModel =  swarm.CountBestRouteRounds(BestRoute);
 
         //System.out.print("");
-        
-       
+
     }//GEN-LAST:event_btnRunActionPerformed
 
 
@@ -333,7 +335,7 @@ public class Main extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
- /* Create and display the form */
+        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Main().setVisible(true);
