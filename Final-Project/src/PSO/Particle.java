@@ -19,7 +19,7 @@ public final class Particle {
     public String name;
     public int maxCapacity;
     public ArrayList<Double> particleRoute;
-    public ArrayList<Double> personalBestRoute;
+    public ArrayList<Double> pBestRoute;
     public double pFitnessValue;
     public double pBestValue;
 
@@ -48,7 +48,7 @@ public final class Particle {
         this.noOfLoc = noOfLoc;
         this.maxCapacity = maxCapacity;
         setMaxCapacity(this.maxCapacity);
-        System.out.println("particleName : " + name + "capacity : " + maxCapacity);
+        System.out.println("Salesperson : " + name + ", Capacity : " + maxCapacity);
         setName(name);
         this.graph = graph;
         particleRoute = new ArrayList();
@@ -57,9 +57,9 @@ public final class Particle {
             route.add((double) i + 1);
         }
         Collections.shuffle(route);
-        System.out.println("Initial particle route for particle " + name + " :" + route.toString());
+        System.out.println("Route for " + name + " :" + route.toString());
         particleRoute = route;
-        personalBestRoute = particleRoute;
+        pBestRoute = particleRoute;
         pFitnessValue = GenerateFitness();
         pBestValue = pFitnessValue;
         setpBestValue(pBestValue);
@@ -78,11 +78,11 @@ public final class Particle {
     }
 
     public ArrayList<Double> getPersonalBestRoute() {
-        return personalBestRoute;
+        return pBestRoute;
     }
 
     public void setPersonalBestRoute(ArrayList<Double> PersonalBestRoute) {
-        this.personalBestRoute = PersonalBestRoute;
+        this.pBestRoute = PersonalBestRoute;
     }
 
     public String getName() {
@@ -98,8 +98,8 @@ public final class Particle {
         int sum = 0;
 
         //return the value of objective function
-        for (int i = 0; i < personalBestRoute.size() - 1; i++) {
-            int v = (int) Math.round(personalBestRoute.get(i));
+        for (int i = 0; i < pBestRoute.size() - 1; i++) {
+            int v = (int) Math.round(pBestRoute.get(i));
             sum += graph.getAdjacency_matrix()[initial][v];
             initial = v;
         }
