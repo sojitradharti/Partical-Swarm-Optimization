@@ -5,6 +5,7 @@
  */
 package UI;
 
+import Graph.BarChart;
 import Business.Graph;
 import Business.Location;
 import Business.ParticleModel;

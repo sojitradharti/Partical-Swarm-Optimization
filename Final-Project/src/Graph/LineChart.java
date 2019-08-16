@@ -40,16 +40,15 @@ public class LineChart extends ApplicationFrame {
     private XYDataset createDataset(Map<Double, Map<Double, Double>> particles) {
 
         XYSeriesCollection dataset = new XYSeriesCollection();
-
-        for (Map.Entry<Double, Map<Double, Double>> entry : particles.entrySet()) {		    
-
+        particles.entrySet().stream().map((entry) -> {
             XYSeries series = new XYSeries(entry.getKey());
-            for (Map.Entry<Double, Double> e : entry.getValue().entrySet()) {
+            entry.getValue().entrySet().stream().forEach((e) -> {
                 series.add(e.getKey(), e.getValue());
-            }
-
+            });
+            return series;
+        }).forEach((series) -> {
             dataset.addSeries(series);
-        }
+        });
 
         return dataset;
 
@@ -58,29 +57,21 @@ public class LineChart extends ApplicationFrame {
     private JFreeChart createChart(String title, XYDataset dataset) {
 
         JFreeChart chart = ChartFactory.createXYLineChart(
-                title, // chart title
-                "Iteration Count", // x axis label
-                "pBest", // y axis label
-                dataset, // data
+                title,
+                "Iterations ",
+                "pBest",
+                dataset,
                 PlotOrientation.VERTICAL,
-                true, // include legend
-                true, // tool tips
-                false // url
+                true,
+                true,
+                false
         );
-        chart.setBackgroundPaint(Color.white);
-
-        // get a reference to the plot for further customization...
+        chart.setBackgroundPaint(Color.GRAY);
         final XYPlot plot = chart.getXYPlot();
-//        plot.setBackgroundPaint(Color.lightGray);
-//        plot.setDomainGridlinePaint(Color.white);
-//        plot.setRangeGridlinePaint(Color.white);
-
         final XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
         plot.setRenderer(renderer);
-
         final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-
         return chart;
 
     }

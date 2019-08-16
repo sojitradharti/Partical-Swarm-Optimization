@@ -1,5 +1,4 @@
-package UI;
-
+package Graph;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,10 +12,13 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
 
-public class NewClass extends ApplicationFrame {
+public class BarChart extends ApplicationFrame {
 
-    public NewClass(String applicationTitle, String chartTitle) {
+    Map<Double, Map<Double, Double>> particles;
+
+    public BarChart(String applicationTitle, String chartTitle, Map<Double, Map<Double, Double>> particles) {
         super(applicationTitle);
+        this.particles = particles;
         JFreeChart barChart = ChartFactory.createBarChart(
                 chartTitle,
                 "Particles",
@@ -31,29 +33,15 @@ public class NewClass extends ApplicationFrame {
     }
 
     private CategoryDataset createDataset() {
-        HashMap<Double, Integer> map = new HashMap<>();
-        map.put(2.3, 290);
-        map.put(1.0, 820);
-        map.put(1.1, 2);
-        map.put(10.0, 90);
-        map.put(34.6, 20);
+
         final DefaultCategoryDataset dataset
                 = new DefaultCategoryDataset();
-
-        Iterator it = map.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry) it.next();
-            dataset.addValue((Number) pair.getKey(), (Comparable) pair.getValue(), (Comparable)2);
+        for (Map.Entry<Double, Map<Double, Double>> entry : particles.entrySet()) {
+            for (Map.Entry<Double, Double> e : entry.getValue().entrySet()) {
+                dataset.addValue(e.getValue(),entry.getKey(),  e.getKey());
+            }
         }
 
         return dataset;
-    }
-
-    public static void main(String[] args) {
-        NewClass chart = new NewClass("Chart",
-                "Particle's Gbest through iterations?");
-        chart.pack();
-        RefineryUtilities.centerFrameOnScreen(chart);
-        chart.setVisible(true);
     }
 }
