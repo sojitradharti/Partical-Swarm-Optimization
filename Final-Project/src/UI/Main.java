@@ -33,6 +33,7 @@ public class Main extends javax.swing.JFrame {
     public static int noOfLocations;
     public static int maxLocationOrders;
     public static int maxSalesmanCapacity;
+  
 
     private static int getRandom() {
         Random rand = new Random();
@@ -270,8 +271,17 @@ public class Main extends javax.swing.JFrame {
         HashMap<Double, Map<Double, Double>> particles = new HashMap<Double, Map<Double, Double>>();
         for (int num = 1; num <= iterations; num++) {
             System.out.println("-----------------------------Iteration :" + num + "------------------------------\n");
-            swarm.calculatebestSolution();
-            swarm.TrackResultOfParticle(num, particles);
+            if(swarm.calculatebestSolution(target))
+            {
+                swarm.trackResultOfParticle(num, particles);                
+                System.out.println("Target reached at iteration : " + num );
+                break;
+            }
+            else
+            {
+                swarm.trackResultOfParticle(num, particles);
+            }
+            
            		
         }
          int[] BestRoute = swarm.getBestRoute();
