@@ -47,6 +47,8 @@ public final class Particle {
     public Particle(int name, Graph graph, int maxCapacity, int noOfLoc) {
         this.noOfLoc = noOfLoc;
         this.maxCapacity = maxCapacity;
+        setMaxCapacity(this.maxCapacity);
+        System.out.println("particleName : " + name + "capacity : " + maxCapacity);
         setName(name);
         this.graph = graph;
         particleRoute = new ArrayList();

@@ -6,17 +6,20 @@
 package UI;
 
 import Graph.BarChart;
+import Animation.AnimationUI;
 import Business.Graph;
 import Business.Location;
+import Business.LocationModel;
 import Business.ParticleModel;
 import Graph.LineChart;
 import PSO.Particle;
 import PSO.Swarm;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import javax.swing.JOptionPane;
+import java.util.regex.Pattern;
 import org.jfree.ui.RefineryUtilities;
 
 /**
@@ -27,14 +30,26 @@ public class Main extends javax.swing.JFrame {
 
     public static int ParticleCount;
     public static int noOfLocations;
-    public static int maxLocationDemand;
+    public static int maxLocationOrders;
     public static int maxSalesmanCapacity;
+
+    private static int getRandom() {
+        Random rand = new Random();
+        int val = rand.nextInt(noOfLocations);
+        if (val == 0) {
+            val = val + 1;
+        }
+        return val;
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     int target;
     static Graph graph;
     static ParticleModel pm;
     static Location loc;
     static int iterations;
     static Swarm swarm;
+    static LocationModel locmodel;
 
     /**
      * Creates new form NewJFrame
@@ -62,7 +77,7 @@ public class Main extends javax.swing.JFrame {
         IterationInput = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         targetInput = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnRun = new javax.swing.JButton();
         maxPacket = new javax.swing.JLabel();
         maxPacketInput = new javax.swing.JTextField();
         locDemand = new javax.swing.JLabel();
@@ -79,18 +94,18 @@ public class Main extends javax.swing.JFrame {
 
         locationCount.setText("Number of locations : ");
 
-        particlesInput.setText("10");
+        particlesInput.setText("2");
         particlesInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 particlesInputActionPerformed(evt);
             }
         });
 
-        locationinput.setText("12");
+        locationinput.setText("5");
 
         jLabel2.setText("Max Iterations :");
 
-        IterationInput.setText("10");
+        IterationInput.setText("5");
         IterationInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 IterationInputActionPerformed(evt);
@@ -106,10 +121,10 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Run");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnRun.setText("Run");
+        btnRun.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnRunActionPerformed(evt);
             }
         });
 
@@ -154,7 +169,7 @@ public class Main extends javax.swing.JFrame {
                             .addComponent(targetInput, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(235, 235, 235)
-                        .addComponent(jButton1)))
+                        .addComponent(btnRun)))
                 .addContainerGap(134, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -187,7 +202,7 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(targetInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btnRun)
                 .addGap(42, 42, 42))
         );
 
@@ -217,22 +232,24 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_targetInputActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunActionPerformed
         // TODO add your handling code here:
         ParticleCount = Integer.parseInt(particlesInput.getText());
         noOfLocations = Integer.parseInt(locationinput.getText());
         iterations = Integer.parseInt(IterationInput.getText());
         target = Integer.parseInt(targetInput.getText());
         maxSalesmanCapacity = Integer.parseInt(maxPacketInput.getText());
-        maxLocationDemand = Integer.parseInt(maxLocDemand.getText());
+        maxLocationOrders = Integer.parseInt(maxLocDemand.getText());
+        Pattern regEx = Pattern.compile("\\d*");
+//        if (!regEx.matcher(particlesInput.getText()).matches() &&!regEx.matcher(maxPacketInput.getText()).matches() && !regEx.matcher(maxLocDemand.getText()).matches() && !regEx.matcher(locationinput.getText()).matches() &&!regEx.matcher(IterationInput.getText()).matches() && ! regEx.matcher(targetInput.getText()).matches()) {
+//            JOptionPane.showMessageDialog(null, "Please enter digits only");
+//        }
 
-        if (particlesInput.getText().isEmpty() && locationinput.getText().isEmpty() && IterationInput.getText().isEmpty() && targetInput.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "please enter all the fields");
-        }
         graph = new Graph(noOfLocations);
         CreateGraph();
         pm = new ParticleModel(ParticleCount, graph, maxSalesmanCapacity, noOfLocations);
-        loc = new Location(noOfLocations, maxLocationDemand);
+        locmodel = new LocationModel(noOfLocations, maxLocationOrders);
+        //loc = new Location(noOfLocations, maxLocationDemand);
 
         print(pm.arrParticle);
         // print graph adjacency matrix
@@ -246,30 +263,44 @@ public class Main extends javax.swing.JFrame {
         }
 
         CreateSwarm();
-        //  Map<String, Map<Double, Double>> particleProgress = new HashMap<String, Map<Double,Double>>();
-        //iterations to get best solution.
+
         HashMap<Double, Map<Double, Double>> particles = new HashMap<Double, Map<Double, Double>>();
         for (int num = 1; num <= iterations; num++) {
-            System.out.println("-------------------------------------Iteration :" + num + "-------------------------------------\n");
-            swarm.calculatebestSolution();
-            swarm.getParticleProgress(num, particles);
-            //swarm.printIterationResults(t, particleProgress);			
+            System.out.println("-----------------------------Iteration :" + num + "------------------------------\n");
+            if (swarm.calculatebestSolution(target)) {
+                swarm.trackResultOfParticle(num, particles);
+                System.out.println("Target reached at iteration : " + num);
+                break;
+            } else {
+                swarm.trackResultOfParticle(num, particles);
+            }
+
         }
-        //swarm.getParticleProgress();
-        LineChart chart = new LineChart("Particles", particles);
-        chart.pack();
-        RefineryUtilities.centerFrameOnScreen(chart);
-        chart.setVisible(true);
-        
+        int[] BestRoute = swarm.getBestRoute();
+        System.out.println("The most efficient route is : " + Arrays.toString(BestRoute));
+
+        //Bar chart display code
         BarChart barChart = new BarChart("Chart",
                 "Particle's Gbest through iterations?", particles);
         barChart.pack();
         RefineryUtilities.centerFrameOnScreen(barChart);
         barChart.setVisible(true);
+        
+        //Line chart display code
+        LineChart chart = new LineChart("Particles", particles);
+        chart.pack();
+        RefineryUtilities.centerFrameOnScreen(chart);
+        chart.setVisible(true);
+ 
+        AnimationUI gui = new AnimationUI();
+        Map<String, List<Integer>> ResultModel = swarm.CountBestRouteRounds(BestRoute);
+        for (Map.Entry<String, List<Integer>> entry : ResultModel.entrySet()) {
+            System.out.println(entry.getKey() + " : " + entry.getValue());
+            // TODO: animation
+        }
+        //System.out.print("");
+    }//GEN-LAST:event_btnRunActionPerformed
 
-        System.out.println("The most efficient route is : " + Arrays.toString(swarm.getBestRoute()));
-
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void maxPacketInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maxPacketInputActionPerformed
         // TODO add your handling code here:
@@ -310,8 +341,8 @@ public class Main extends javax.swing.JFrame {
         });
     }
 
-    private static void print(Particle[] guys) {
-        for (Particle ob : guys) {
+    private static void print(Particle[] par) {
+        for (Particle ob : par) {
             System.out.println(ob.name + "\t");
         }
 
@@ -325,7 +356,7 @@ public class Main extends javax.swing.JFrame {
                 if (i == j) {
                     graph.addEdge(i, j, 0);
                 } else {
-                    graph.addEdge(i, j, rand.nextInt(noOfLocations));
+                    graph.addEdge(i, j, getRandom());
 
                 }
             }
@@ -334,14 +365,14 @@ public class Main extends javax.swing.JFrame {
     }
 
     private static void CreateSwarm() {
-        swarm = new Swarm(pm, loc, noOfLocations, graph);
+        swarm = new Swarm(pm, locmodel, noOfLocations, graph);
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField IterationInput;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnRun;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
