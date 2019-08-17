@@ -110,7 +110,7 @@ public class Swarm {
         Collections.sort(gBestRoute);
 
         for (int i = 0; i < bestRoute.length; i++) {
-            if (frequency.get(gBestRoute.get(i)).size() > 1) {			
+            if (frequency.get(gBestRoute.get(i)).size() > 1) {
                 int num = i;
                 for (int k = 0; k < frequency.get(gBestRoute.get(num)).size(); k++) {
                     bestRoute[i] = frequency.get(gBestRoute.get(num)).get(k) + 1;
@@ -143,20 +143,96 @@ public class Swarm {
 
         for (int v = 0; v < parModel.getArraySalesperson().length; v++) {
             route = new ArrayList<>();
+            route.add(0);
             roundsCount = 0;
+
             int availableCapacity = parModel.getArraySalesperson()[v].maxCapacity;
             for (int i = 0; i < bestRoute.length; i++) {
+
                 int locDemand = loc.Locations[bestRoute[i] - 1].maxDemand;
-                while (locDemand > 0) {
-                    roundsCount++;
-                    route.add(0);
-                    locDemand = locDemand - availableCapacity;
+
+                if (availableCapacity == locDemand) {
                     route.add(bestRoute[i]);
+                    if(route.get(route.size()-1) != 0)
+                    route.add(0);
+                    roundsCount++;
+
+                    availableCapacity = parModel.getArraySalesperson()[v].maxCapacity;
+                    locDemand = 0;
+
+                } else {
+                    while (locDemand > 0) {
+
+                        if (locDemand > availableCapacity) {
+                            locDemand = locDemand - availableCapacity;
+                            route.add(bestRoute[i]);
+                            if(route.get(route.size()-1) != 0)
+                            route.add(0);
+                            roundsCount++;
+                            availableCapacity = parModel.getArraySalesperson()[v].maxCapacity;
+                            if (availableCapacity == locDemand) {
+
+                                if(route.get(route.size()-1) != 0)
+                                route.add(0);
+                                roundsCount++;
+                                availableCapacity = parModel.getArraySalesperson()[v].maxCapacity;
+
+                            }
+
+                        } else if (locDemand < availableCapacity) {
+                            availableCapacity = availableCapacity - locDemand;
+                            route.add(bestRoute[i]);
+                            locDemand = 0;
+                        } else {
+                            route.add(bestRoute[i]);
+                            locDemand = 0;
+                            if(route.get(route.size()-1) != 0)
+                            route.add(0);
+                            roundsCount++;
+
+                            availableCapacity = parModel.getArraySalesperson()[v].maxCapacity;
+                           // System.out.println("finaly" + availableCapacity + " " + locDemand);
+                        }
+                    }
+
                 }
             }
-            model.put("Salesperson " + parModel.getArraySalesperson()[v].name + " Capacity : " + parModel.getArraySalesperson()[v].maxCapacity + ", Total Rounds : " + roundsCount + ", TotalDistance:" + totalDistance + "  ,Route followed" , route);
-            route.add(0);
+
+            model.put("Salesperson " + parModel.getArraySalesperson()[v].name + " Capacity : " + parModel.getArraySalesperson()[v].maxCapacity + ", Total Rounds : " + roundsCount + ", TotalDistance:" + totalDistance + "  ,Route followed", route);
+           
         }
+
+//                while (locDemand > 0) {
+//                    roundsCount++;
+//                   
+//                    if(availableCapacity > locDemand )
+//                    {
+//                        int a = availableCapacity -locDemand;
+//                        locDemand = locDemand-a;
+//                        availableCapacity = availableCapacity-a;
+//                        if(availableCapacity <= 0)
+//                        {
+//                              route.add(0);
+//                              availableCapacity = parModel.getArraySalesperson()[v].maxCapacity;
+//                        }
+//                    }
+//                    else
+//                    {
+//                        int a = locDemand-availableCapacity;
+//                        locDemand = locDemand-a;
+//                        availableCapacity = locDemand-a;
+//                         if(availableCapacity <= 0)
+//                        {
+//                              route.add(0);
+//                              availableCapacity = parModel.getArraySalesperson()[v].maxCapacity;
+//                        }
+//                       
+//                    }
+//                   
+//                    //locDemand = locDemand - availableCapacity;
+//                    
+//                    route.add(bestRoute[i]);
+//                }
         return model;
     }
 
