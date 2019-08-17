@@ -51,30 +51,31 @@
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="101" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="particleCount" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="locationCount" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="maxPacket" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="locDemand" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="btnRun" min="-2" pref="144" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="particleCount" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="locationCount" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="maxPacket" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="locDemand" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="particlesInput" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="maxPacketInput" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="locationinput" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="maxLocDemand" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="IterationInput" alignment="0" pref="147" max="32767" attributes="0"/>
+                                      <Component id="targetInput" alignment="0" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
                           </Group>
-                          <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="maxPacketInput" min="-2" pref="71" max="-2" attributes="0"/>
-                              <Component id="particlesInput" min="-2" pref="71" max="-2" attributes="0"/>
-                              <Component id="locationinput" alignment="0" min="-2" pref="71" max="-2" attributes="0"/>
-                              <Component id="maxLocDemand" alignment="0" min="-2" pref="71" max="-2" attributes="0"/>
-                              <Component id="IterationInput" alignment="0" min="-2" pref="71" max="-2" attributes="0"/>
-                              <Component id="targetInput" min="-2" pref="71" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="235" max="-2" attributes="0"/>
-                          <Component id="btnRun" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="134" max="32767" attributes="0"/>
+                  <EmptySpace pref="58" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -113,9 +114,9 @@
                       <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="targetInput" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="50" max="32767" attributes="0"/>
-                  <Component id="btnRun" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="btnRun" min="-2" pref="39" max="-2" attributes="0"/>
+                  <EmptySpace pref="58" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -141,7 +142,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="particlesInput">
           <Properties>
-            <Property name="text" type="java.lang.String" value="1"/>
+            <Property name="text" type="java.lang.String" value="30"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="particlesInputActionPerformed"/>
@@ -159,7 +160,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="IterationInput">
           <Properties>
-            <Property name="text" type="java.lang.String" value="1"/>
+            <Property name="text" type="java.lang.String" value="1000"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="IterationInputActionPerformed"/>
@@ -193,7 +194,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="maxPacketInput">
           <Properties>
-            <Property name="text" type="java.lang.String" value="2"/>
+            <Property name="text" type="java.lang.String" value="15"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="maxPacketInputActionPerformed"/>
@@ -206,7 +207,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="maxLocDemand">
           <Properties>
-            <Property name="text" type="java.lang.String" value="3"/>
+            <Property name="text" type="java.lang.String" value="20"/>
           </Properties>
         </Component>
       </SubComponents>
