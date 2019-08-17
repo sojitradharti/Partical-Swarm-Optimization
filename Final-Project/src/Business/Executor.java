@@ -31,7 +31,7 @@ public class Executor extends Thread {
     public void run() {
 
         // System.err.println("For Particle :" + p.name);
-        System.err.println("For particle :" + p.name);
+        //System.err.println("For particle :" + p.name);
         //   System.err.println(Thread.currentThread().getName());
         findNewVelocity(p);
         findNewPosition(p);
@@ -44,9 +44,9 @@ public class Executor extends Thread {
             p.pBestValue = p.pFitnessValue;
             p.pBestVelocity = p.pVelocity;
         }
-        System.out.println("PersonalBestRoute " + p.pBestRoute);
+//        System.out.println("PersonalBestRoute " + p.pBestRoute);
         System.out.println("particle " + p.name + " p Fitness " + p.pFitnessValue + "  p BestValue " + p.pBestValue);
-        System.out.println("P Best Velocity " + Arrays.toString(p.pBestVelocity));
+//        System.out.println("P Best Velocity " + Arrays.toString(p.pBestVelocity));
             // Thread.currentThread().interrupt();
 
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

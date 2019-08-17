@@ -30,7 +30,10 @@ public class Swarm {
     double[] gBestVelocity;
     Thread process;
     Executor exe;
-
+    double[] value = new double[3];
+    double pprev=0;
+    double prev=0;
+    double curr=0;
     private final ParticleModel parModel;
     public Graph graph;
     public LocationModel loc;
@@ -53,6 +56,7 @@ public class Swarm {
                 gFitnessValue = par.pFitnessValue;
                 gBestRoute = par.particleRoute;
                 gBestVelocity = par.pBestVelocity;
+               
             }
         }
 
@@ -81,7 +85,9 @@ public class Swarm {
         }
         //update all global variables after each paricle updated
         findGlobalBest(parModel.getArraySalesperson());
-
+        pprev = prev;
+               prev=curr;
+                curr = gFitnessValue;
         try {
             Thread.sleep(2000);
 
@@ -91,7 +97,11 @@ public class Swarm {
         }
         if (gFitnessValue <= target) {
             return true;
-        } else {
+        } else if(curr == pprev){
+            return true;
+        }
+        else
+        {
             return false;
         }
     }
@@ -198,7 +208,7 @@ public class Swarm {
                 }
             }
 
-            model.put("Salesperson " + parModel.getArraySalesperson()[v].name + " Capacity : " + parModel.getArraySalesperson()[v].maxCapacity + ", Total Rounds : " + roundsCount + ", TotalDistance:" + totalDistance + "  ,Route followed", route);
+            model.put("Salesperson " + parModel.getArraySalesperson()[v].name + " Capacity : " + parModel.getArraySalesperson()[v].maxCapacity + ", Total Rounds : " + roundsCount + "  , Best Route", route);
            
         }
 
