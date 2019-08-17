@@ -224,7 +224,145 @@ public class GraphCanvas extends Canvas implements Runnable {
 	private Image offScreenImage;
 	private Graphics offScreenGraphics;
 	private Dimension offScreenSize;
+public final synchronized void update(Graphics g) {
+		// prepare new image offscreen
+		Dimension d = size();
+		if ((offScreenImage == null) || (d.width != offScreenSize.width)
+				|| (d.height != offScreenSize.height)) {
+			offScreenImage = createImage(d.width, d.height);
+			offScreenSize = d;
+			offScreenGraphics = offScreenImage.getGraphics();
+		}
+		offScreenGraphics.setColor(Color.white);
+		offScreenGraphics.fillRect(0, 0, d.width, d.height);
+		paint(offScreenGraphics);
+		g.drawImage(offScreenImage, 0, 0, null);
+	}
 
+	public void drawarrow(Graphics g, int i, int j) {
+		// draw arrow between node i and node j
+		int x1, x2, x3, y1, y2, y3;
+
+		// calculate arrowhead
+		x1 = (int) (arrow[i][j].x - 3 * dir_x[i][j] + 6 * dir_y[i][j]);
+		x2 = (int) (arrow[i][j].x - 3 * dir_x[i][j] - 6 * dir_y[i][j]);
+		x3 = (int) (arrow[i][j].x + 6 * dir_x[i][j]);
+
+		y1 = (int) (arrow[i][j].y - 3 * dir_y[i][j] - 6 * dir_x[i][j]);
+		y2 = (int) (arrow[i][j].y - 3 * dir_y[i][j] + 6 * dir_x[i][j]);
+		y3 = (int) (arrow[i][j].y + 6 * dir_y[i][j]);
+
+		int arrowhead_x[] = { x1, x2, x3, x1 };
+		int arrowhead_y[] = { y1, y2, y3, y1 };
+
+		// if edge already chosen by algorithm change color
+		
+		// draw arrow
+		g.drawLine(startp[i][j].x, startp[i][j].y, endp[i][j].x, endp[i][j].y);
+		g.fillPolygon(arrowhead_x, arrowhead_y, 4);
+
+		// write weight of arrow at an appropriate position
+		//
+	}
+	public void start_animation(){
+		
+		 perfalgo = true;
+		
+	}
+
+	public void paint(Graphics g) {
+		showexample();
+		mindist = 0;
+		minnode = MAXNODES;
+		minstart = MAXNODES;
+		minend = MAXNODES;
+		for (int i = 0; i < MAXNODES; i++)
+			changed[i] = false;
+		numchanged = 0;
+		neighbours = 0;
+		g.setFont(roman);
+		g.setColor(Color.white);
+		// if (step==1)
+		// showstring="Algorithm running: red arrows point to nodes reachable from "
+		// +
+		// " the startnode.\nThe distance to: ";
+		// else
+		// showstring="Step " + step +
+		// ": Red arrows point to nodes reachable from " +
+		// "nodes that already have a final distance." +
+		// "\nThe distance to: ";
+
+		// draw a new arrow upto current mouse position
+		// if (newarrow)
+		// g.drawLine(node[node1].x, node[node1].y, thispoint.x, thispoint.y);
+
+		// draw all arrows
+		for (int i = 0; i < numnodes; i++)
+			for (int j = 0; j < numnodes; j++)
+				if (weight[i][j] > 0) {
+					// if algorithm is running then perform next step for this
+					// arrow
+					// if (performalg)
+					// detailsalg(g, i, j);
+					drawarrow(g, i, j);
+				}
+
+		// if arrowhead has been dragged to 0, draw it anyway, so the user
+		// will have the option to make it positive again
+		// if (movearrow && weight[node1][node2]==0) {
+		// drawarrow(g, node1, node2);
+		// g.drawLine(startp[node1][node2].x, startp[node1][node2].y,
+		// endp[node1][node2].x, endp[node1][node2].y);
+		// }
+
+		// draw the nodes
+		for (int i = 0; i < numnodes; i++)
+			if (node[i].x > 0) {
+				g.setColor(colornode[i]);
+				g.fillOval(node[i].x - NODERADIX, node[i].y - NODERADIX,
+						NODESIZE, NODESIZE);
+			}
+
+		// reflect the startnode being moved
+		g.setColor(Color.blue);
+		// if (movestart)
+		// NODESIZE, NODESIZE);
+
+		g.setColor(Color.black);
+		// finish this step of the algorithm
+		// if (performalg) endstepalg(g);
+
+		// draw black circles around nodes, write their names to the screen
+		g.setFont(helvetica);
+		for (int i = 0; i < numnodes; i++)
+			if (node[i].x > 0) {
+				g.setColor(Color.black);
+				g.drawOval(node[i].x - NODERADIX, node[i].y - NODERADIX,
+						NODESIZE, NODESIZE);
+				g.setColor(Color.white); // font color
+				g.drawString("" + i, node[i].x, node[i].y);
+			}
+		start_animation();
+		if(perfalgo){
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			for(int i = 0; i<route.length-1;i++){
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				g.setColor(Color.red);
+				drawarrow(g, route[i],route[i+1] );
+			}
+		}
+		 //showexample();
+	}
     @Override
     public void run() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
