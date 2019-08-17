@@ -7,6 +7,8 @@ package UI;
 
 import Graph.BarChart;
 import Animation.AnimationUI;
+import Animation.GraphAlgorithm;
+import Animation.GraphCanvas;
 import Animation.GraphUI;
 import Business.Graph;
 import Business.Location;
@@ -21,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.regex.Pattern;
+import javax.swing.JFrame;
 import org.jfree.ui.RefineryUtilities;
 
 /**
@@ -33,6 +36,7 @@ public class Main extends javax.swing.JFrame {
     public static int noOfLocations;
     public static int maxLocationOrders;
     public static int maxSalesmanCapacity;
+    GraphCanvas graphcanvas;
 
     private static int getRandom() {
         Random rand = new Random();
@@ -95,7 +99,7 @@ public class Main extends javax.swing.JFrame {
 
         locationCount.setText("Number of locations : ");
 
-        particlesInput.setText("5");
+        particlesInput.setText("1");
         particlesInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 particlesInputActionPerformed(evt);
@@ -106,7 +110,7 @@ public class Main extends javax.swing.JFrame {
 
         jLabel2.setText("Max Iterations :");
 
-        IterationInput.setText("5");
+        IterationInput.setText("1");
         IterationInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 IterationInputActionPerformed(evt);
@@ -235,6 +239,9 @@ public class Main extends javax.swing.JFrame {
 
     private void btnRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunActionPerformed
         // TODO add your handling code here:
+       
+       
+
         ParticleCount = Integer.parseInt(particlesInput.getText());
         noOfLocations = Integer.parseInt(locationinput.getText());
         iterations = Integer.parseInt(IterationInput.getText());
@@ -250,6 +257,8 @@ public class Main extends javax.swing.JFrame {
         CreateGraph();
         pm = new ParticleModel(ParticleCount, graph, maxSalesmanCapacity, noOfLocations);
         locmodel = new LocationModel(noOfLocations, maxLocationOrders);
+         int maxnodes = noOfLocations + 1;
+        
         //loc = new Location(noOfLocations, maxLocationDemand);
 
         //  print(pm.arrParticle);
@@ -293,12 +302,34 @@ public class Main extends javax.swing.JFrame {
         RefineryUtilities.centerFrameOnScreen(chart);
         chart.setVisible(true);
         Map<String, List<Integer>> ResultModel = swarm.CountBestRouteRounds(BestRoute);
+        int k = 0;
         for (Map.Entry<String, List<Integer>> entry : ResultModel.entrySet()) {
-            System.out.println(entry.getKey() + " : " + entry.getValue());
-            // TODO: animation
-        }
-        //  Map<String, List<Integer>> ResultModel =  swarm.CountBestRouteRounds(BestRoute);
+           
+                int[] routes = (entry.getValue()).stream().mapToInt(i -> i).toArray();
+               // System.out.println("maxnodes : " + maxnodes + " : " + " links : " + Arrays.toString(links) + " route : " + Arrays.toString(routes));
+               
+                System.out.println(entry.getKey() + " : " + entry.getValue());
+                // TODO: animation
+                GraphAlgorithm g = new GraphAlgorithm();
 
+                JFrame frame = new JFrame("Routing Animation");
+
+                g.setparameters(maxnodes, BestRoute, routes);
+
+                frame.add("Center", g);
+
+                frame.resize(800, 600);
+                frame.show();
+                frame.setSize(1500, 1500);
+                frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            
+
+        }
+
+        // 
+        //  Map<String, List<Integer>> ResultModel =  swarm.CountBestRouteRounds(BestRoute);
         //System.out.print("");
 
     }//GEN-LAST:event_btnRunActionPerformed

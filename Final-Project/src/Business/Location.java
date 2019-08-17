@@ -28,7 +28,7 @@ public class Location {
         this.maxDemand = getRandomMaxDemand(maxDemand);
         setName(name);
         setMaxDemand(this.maxDemand);
-        System.out.println("Location " + name + ", Demand : " + this.maxDemand);
+        System.out.println("Location " + (name+1) + ", Demand : " + this.maxDemand);
     }
 
     public String getName() {
