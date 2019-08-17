@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.regex.Pattern;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import org.jfree.ui.RefineryUtilities;
 
 /**
@@ -238,19 +239,27 @@ public class Main extends javax.swing.JFrame {
 
     private void btnRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunActionPerformed
         // TODO add your handling code here:
-       
-       
-
+        try
+        {         
+           
+    
         ParticleCount = Integer.parseInt(particlesInput.getText());
         noOfLocations = Integer.parseInt(locationinput.getText());
         iterations = Integer.parseInt(IterationInput.getText());
         target = Integer.parseInt(targetInput.getText());
         maxSalesmanCapacity = Integer.parseInt(maxPacketInput.getText());
         maxLocationOrders = Integer.parseInt(maxLocDemand.getText());
+        }
+        catch (NumberFormatException | NullPointerException nfe) {
+         JOptionPane.showMessageDialog(null, "Please enter valid values");
+         return;
+    }
         Pattern regEx = Pattern.compile("\\d*");
-//        if (!regEx.matcher(particlesInput.getText()).matches() &&!regEx.matcher(maxPacketInput.getText()).matches() && !regEx.matcher(maxLocDemand.getText()).matches() && !regEx.matcher(locationinput.getText()).matches() &&!regEx.matcher(IterationInput.getText()).matches() && ! regEx.matcher(targetInput.getText()).matches()) {
-//            JOptionPane.showMessageDialog(null, "Please enter digits only");
-//        }
+         if(ParticleCount == 0 ||noOfLocations == 0 ||iterations ==0||maxSalesmanCapacity==0 || maxLocationOrders==0)
+         {
+             JOptionPane.showMessageDialog(null, "Values should be greater than zero");
+             return;
+         }
 
         graph = new Graph(noOfLocations);
         CreateGraph();
