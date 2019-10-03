@@ -1,1 +1,0 @@
-Particle Swarm optimization
